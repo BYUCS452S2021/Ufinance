@@ -3,7 +3,11 @@ const isDocker = require('is-docker')
 const buildFastify = require('./src/app.js')
 
 const server = buildFastify({
-  logger: true
+  logger: {
+    level: 'debug',
+    base: {},
+    prettyPrint: { translateTime: 'SYS:standard' }
+  }
 })
 
 const start = async () => {

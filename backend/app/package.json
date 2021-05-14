@@ -50,6 +50,7 @@
     "fastify-postgres": "^3.5.0",
     "fastify-swagger": "^4.7.0",
     "is-docker": "^2.2.1",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "pino-pretty": "^4.8.0"
   }
 }
