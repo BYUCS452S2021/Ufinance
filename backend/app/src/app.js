@@ -22,7 +22,7 @@ function buildFastify (opts = {}) {
     handler: async (request, reply) => { reply.redirect('/documentation') }
   })
 
-  return app
+  return app;
 }
 
 module.exports = buildFastify
