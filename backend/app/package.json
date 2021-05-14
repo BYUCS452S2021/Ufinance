@@ -2,7 +2,7 @@
   "name": "app",
   "version": "1.0.0",
   "description": "Ufinance app",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "lint": "standard",
     "test": "jest"
