@@ -9,8 +9,8 @@ describe('GET /time', () => {
   })
 
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   afterAll(async () => {
     await fastify.close()
