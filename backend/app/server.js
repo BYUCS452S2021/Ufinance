@@ -1,4 +1,5 @@
 'use strict'
+const isDocker = require('is-docker')
 const buildFastify = require('./src/app.js')
 
 const server = buildFastify()
@@ -6,7 +7,11 @@ const server = buildFastify()
 const start = async () => {
   try {
     const PORT = process.env.PORT || 8080
-    await server.listen(PORT)
+    if (isDocker()) {
+      await server.listen(PORT, '0.0.0.0')
+    } else {
+      await server.listen(PORT)
+    }
   } catch (err) {
     server.log.error(err)
     process.exit(1)
