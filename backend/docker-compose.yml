@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  db:
+    build: ./local-postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: 'password'
+
+  app:
+    build: ./app
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    environment:
+      PGHOST: 'db'
+      PGDATABASE: 'postgres'
+      PGUSER: 'postgres'
+      PGPASSWORD: 'password'
+      PGPORT: 5432
