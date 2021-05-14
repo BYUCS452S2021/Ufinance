@@ -16,12 +16,6 @@ function buildFastify (opts = {}) {
     options: { ...opts }
   })
 
-  app.route({
-    method: 'GET',
-    url: '/health',
-    handler: async (request, reply) => ({ status: 'pass' })
-  })
-
   return app
 }
 
