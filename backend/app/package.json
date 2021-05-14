@@ -4,7 +4,7 @@
   "description": "Ufinance app",
   "main": "server.js",
   "scripts": {
-    "lint": "standard",
+    "lint": "standard | snazzy",
     "test": "jest"
   },
   "author": "Gary Crye",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "jest": "^26.6.3",
+    "snazzy": "^9.0.0",
     "standard": "^16.0.3"
   },
   "jest": {
