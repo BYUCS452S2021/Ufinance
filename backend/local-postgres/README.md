@@ -18,6 +18,8 @@ docker ps
 
 Refer to the [Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/docker/) for more commands.
 
+For information about the image, most anything from the [PostgreSQL container image documentation](https://hub.docker.com/_/postgres) should apply; we just added a bit to bootstrap the database.
+
 ### Additional info
 
 The database initialization is contained in `./psql_dump.sql`.
