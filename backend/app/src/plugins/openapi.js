@@ -14,6 +14,12 @@ module.exports = fp(async function (fastify, opts) {
       servers: [{
         url: 'http://localhost:8080' // TODO: Production URL
       }],
-    }
+    },
+    uiConfig: {
+      docExpansion: 'list',
+      deepLinking: true
+    },
+    exposeRoute: true,
+    hideUntagged: true
   })
 })
