@@ -2,7 +2,9 @@
 const isDocker = require('is-docker')
 const buildFastify = require('./src/app.js')
 
-const server = buildFastify()
+const server = buildFastify({
+  logger: true
+})
 
 const start = async () => {
   try {
