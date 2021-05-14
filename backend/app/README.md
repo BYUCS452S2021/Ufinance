@@ -11,11 +11,11 @@ However, this server can be started on its own.
 [Install Docker](https://docs.docker.com/get-docker/), navigate to this directory, and then run:
 
 ```sh
-docker build -t db .
-docker run --name db -e POSTGRES_PASSWORD=password -p 5432 -d db
+docker build -t app .
+docker run --name app -p 8080 -d app
 ```
 
-This will build and then run a PostgreSQL database in a Docker container on port `5432` that you can connect to with username `postgres` and password `password`.
+This will build and then run the server in a Docker container on port `8080`.
 
 You should be able to see that it's up by running:
 ```sh
