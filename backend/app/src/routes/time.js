@@ -5,13 +5,16 @@ module.exports = async function (fastify, opts) {
     method: 'GET',
     url: '/time',
     schema: {
-      description: 'Get time',
+      summary: 'Get time',
+      description: 'Get time from the database, to prove that we can connect to it',
       tags: ['Time'],
       response: {
         200: {
+          description: 'Current time',
           type: 'object',
+          required: ['time'],
           properties: {
-            time: { type: 'string' }
+            time: { type: 'string', format: 'date-time' }
           }
         }
       }

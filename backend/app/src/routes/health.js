@@ -5,14 +5,24 @@ module.exports = async function (fastify, opts) {
     method: 'GET',
     url: '/health',
     schema: {
-      description: 'Healthcheck',
       summary: 'Healthcheck',
+      description: 'Healthcheck - Will respond in [this format](https://tools.ietf.org/id/draft-inadarei-api-health-check-04.html), but with `application/json`',
       tags: ['Health'],
       response: {
         200: {
+          description: 'Healthy',
           type: 'object',
+          required: ['status'],
           properties: {
-            status: { type: 'string' }
+            status: { type: 'string', example: 'pass' }
+          }
+        },
+        400: {
+          description: 'Degraded',
+          type: 'object',
+          required: ['status'],
+          properties: {
+            status: { type: 'string', example: 'warn' }
           }
         }
       }
