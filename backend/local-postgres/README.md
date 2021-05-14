@@ -16,6 +16,8 @@ You should be able to see that it's up by running:
 docker ps
 ```
 
+Refer to the [Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/docker/) for more commands.
+
 ### Other info
 
 The database initialization is contained in `./psql_dump.sql`.
