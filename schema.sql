@@ -37,6 +37,7 @@ ALTER TABLE "stock_prices" ADD FOREIGN KEY ("stock_ticker") REFERENCES "holdings
 
 
 /*
+Link to UML: https://dbdiagram.io/d/6094a2a4b29a09603d13c57a
 The team got together and designed this database. 
 users(user_id, email, password_hash, first_name, middle_name, last_name, investment_strategy)
 	Foreign key: investment_strategy references strategies 
