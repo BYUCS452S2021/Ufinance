@@ -16,6 +16,12 @@ function buildFastify (opts = {}) {
     options: { ...opts }
   })
 
+  app.route({
+    method: 'GET',
+    path: '/',
+    handler: async (request, reply) => { reply.redirect('/documentation') }
+  })
+
   return app
 }
 
