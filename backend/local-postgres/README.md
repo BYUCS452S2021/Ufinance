@@ -18,7 +18,7 @@ docker ps
 
 Refer to the [Docker CLI documentation](https://docs.docker.com/engine/reference/commandline/docker/) for more commands.
 
-### Other info
+### Additional info
 
 The database initialization is contained in `./psql_dump.sql`.
 
