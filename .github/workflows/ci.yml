@@ -28,7 +28,7 @@ jobs:
         run: npm ci --prefer-offline
         working-directory: backend/app
       - name: Run tests
-        run: npm run test
+        run: npm run test -- --colors
         working-directory: backend/app
 
   lint:
