@@ -4,7 +4,7 @@
   "description": "Ufinance app",
   "main": "server.js",
   "scripts": {
-    "lint": "standard | snazzy",
+    "lint": "standard --verbose | snazzy",
     "test": "jest"
   },
   "author": "Gary Crye",
