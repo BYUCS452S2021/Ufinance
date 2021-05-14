@@ -10,6 +10,7 @@
   "author": "Gary Crye",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^26.6.3",
     "standard": "^16.0.3"
   }
 }
