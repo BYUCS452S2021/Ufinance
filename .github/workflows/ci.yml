@@ -54,3 +54,5 @@ jobs:
       - name: Lint
         run: npm run lint
         working-directory: backend/app
+        env:
+          FORCE_COLOR: 3
