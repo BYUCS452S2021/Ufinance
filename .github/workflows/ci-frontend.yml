@@ -1,0 +1,65 @@
+name: CI / Frontend
+
+on:
+  pull_request:
+    paths:
+      - frontend/**
+  push:
+    paths:
+      - frontend/**
+
+env:
+  java_version: 14.x
+  flutter_version: 2.x
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Use Java ${{ env.java_version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.java_version }}
+      - name: Use Flutter ${{ env.flutter_version }}
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.flutter_version }}
+      - name: Install Flutter dependencies
+        run: flutter pub get
+        working-directory: frontend
+      - name: Run tests
+        run: flutter test
+        working-directory: frontend
+  #      - name: Build Android APK
+  #        run: flutter build apk --release
+  #        working-directory: frontend
+  #      - name: Build for web
+  #        run: flutter build web
+  #        working-directory: frontend
+  #      - name: Build for iOS # Must be done using a macOS runner
+  #        run: flutter build ios --release --no-codesign
+  #        working-directory: frontend
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Use Java ${{ env.java_version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.java_version }}
+      - name: Use Flutter ${{ env.flutter_version }}
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.flutter_version }}
+      - name: Install Flutter dependencies
+        run: flutter pub get
+        working-directory: frontend
+      - name: Lint
+        run: flutter analyze
+        working-directory: frontend
