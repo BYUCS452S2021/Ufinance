@@ -2,9 +2,10 @@ name: CI / Backend
 
 on:
   pull_request:
+  push:
 
 env:
-  node_version: '14.x'
+  node_version: 14
 
 jobs:
   test:
