@@ -10,14 +10,24 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final passwordText = TextEditingController();
+  final passwordRetypeText = TextEditingController();
   bool showSpinner = false;
   String email;
   String password;
+  String passwordRetype;
+  String firstName;
+  String middleName;
+  String lastName;
+  String dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Create Account'),
+      ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
@@ -53,6 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                controller: passwordText,
                 onChanged: (value) {
                   password = value;
                 },
@@ -65,11 +76,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               TextField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                controller: passwordRetypeText,
                 onChanged: (value) {
-                  password = value;
+                  passwordRetype = value;
                 },
                 decoration: TextFieldDecoration.copyWith(
                     hintText: 'Re-enter your password'),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  firstName = value;
+                },
+                decoration:
+                    TextFieldDecoration.copyWith(hintText: 'First name'),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  middleName = value;
+                },
+                decoration: TextFieldDecoration.copyWith(
+                    hintText: 'Middle name (optional)'),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  lastName = value;
+                },
+                decoration: TextFieldDecoration.copyWith(hintText: 'Last name'),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Container(
+                alignment: Alignment(0.0, 0.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                  border: Border.all(color: Colors.blueAccent),
+                ),
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 44,
+                  elevation: 16,
+                  hint: Text(
+                    "Select investment strategy",
+                  ),
+                  underline: Container(
+                    height: 0,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>['Conservative', 'Moderate', 'Agressive']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ),
               SizedBox(
                 height: 24.0,
@@ -77,13 +155,50 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               RoundedButton(
                 title: 'Register',
                 colour: Colors.blueAccent,
-                onPressed: () async {
-                  // Add user to database and move to the main page
-                },
+                onPressed: () => registerIsClicked(),
+              ),
+              SizedBox(
+                height: 60.0,
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void registerIsClicked() {
+    if (dropdownValue == null ||
+        email == null ||
+        firstName == null ||
+        lastName == null ||
+        password == null ||
+        passwordRetype == null) {
+      showPrompt('Fill in missing fields');
+    } else if (password != passwordRetype) {
+      passwordText.clear();
+      passwordRetypeText.clear();
+      showPrompt('Passwords do not match');
+    } else {
+      registerUser();
+    }
+  }
+
+  Future<void> registerUser() async {
+    // Check if user exists
+    // Add user to database and move to the main page
+  }
+
+  void showPrompt(String prompt) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.blue[900],
+        content: Text(prompt,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 26,
+                color: Colors.white,
+                fontWeight: FontWeight.w400)),
       ),
     );
   }

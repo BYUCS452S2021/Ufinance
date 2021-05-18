@@ -7,7 +7,6 @@ import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/screens/registration_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
 
-
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
 
@@ -59,15 +58,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     height: 60.0,
                   ),
                 ),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    ColorizeAnimatedText(
-                      'Uinvest', 
-                      textStyle: ColorizeTextStyle, 
-                      colors: ColorizeColors
-                    )
-                  ]
-                ),
+                AnimatedTextKit(animatedTexts: [
+                  ColorizeAnimatedText('Uinvest',
+                      textStyle: ColorizeTextStyle, colors: ColorizeColors)
+                ]),
               ],
             ),
             SizedBox(
