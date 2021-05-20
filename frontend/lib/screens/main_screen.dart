@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; 
 import 'package:frontend/screens/summary_screen.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/screens/holdings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const String id = 'main_screen';
@@ -53,7 +54,7 @@ class _MainScreen extends State<MainScreen>
            child: SummaryScreen(),
          ),
          Center(
-           child: Text('It\'s rainy here'),
+           child: HoldingsScreen(), 
          ),
          Center(
             child: Text('It\'s sunny here'),

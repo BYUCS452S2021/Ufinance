@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/constants.dart'; 
+import 'package:frontend/components/strategy_card.dart';
+import 'package:frontend/data_models/strategy_model.dart';
 
 class SummaryScreen extends StatefulWidget {
   static const String id = 'summary_screen';
@@ -8,6 +9,20 @@ class SummaryScreen extends StatefulWidget {
 }
 
 class _SummaryScreen extends State<SummaryScreen>{
+  final walletMockData = [
+    InvestmentStrategy(
+      strategyName: 'Conservative',
+      description: 'Low risk, low gains',
+    ),
+    InvestmentStrategy(
+      strategyName: 'Moderate',
+      description: 'Some risk',
+    ),
+    InvestmentStrategy(
+      strategyName: 'Agressive',
+      description: 'More risk',
+    )
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +40,7 @@ class _SummaryScreen extends State<SummaryScreen>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Account Balance",
+                    "Your investment",
                     style: TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.bold,
@@ -34,6 +49,14 @@ class _SummaryScreen extends State<SummaryScreen>{
                   ),
                   SizedBox(
                     height: 11.0,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        "Total amount",
+                        style: TextStyle(color: Colors.grey[300]),
+                      )
+                    ],
                   ),
                   RichText(
                     text: TextSpan(
@@ -45,78 +68,25 @@ class _SummaryScreen extends State<SummaryScreen>{
                               .headline4
                               .apply(color: Colors.white, fontWeightDelta: 2),
                         ),
-                        TextSpan(text: " ETH")
                       ],
                     ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.lock, color: Colors.grey[300]),
-                      SizedBox(width: 5.0),
-                      Text(
-                        "Freezing amount: 1.0173 ETH",
-                        style: TextStyle(color: Colors.grey[300]),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 11.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        child: ElevatedButton(
-                          style: accountSummaryStyle,
-                          
-                          onPressed: () {},
-                          child: Text(
-                            'Deposit',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 11.0),
-                          color: Colors.deepPurple,
-                          onPressed: () {},
-                          child: Text(
-                            'Cash',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(9.0),
-                              side: BorderSide(color: Colors.white)),
-                        ),
-                      ),
-                      Flexible(
-                        child: RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 11.0),
-                          color: Color(0xff1b4dff),
-                          onPressed: () {},
-                          child: Text(
-                            'Deposit',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(9.0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
-            )
+            ),
+            SizedBox(
+                    height: 50.0,
+                  ),
+
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: walletMockData.length,
+              itemBuilder: (BuildContext context, int index){
+                return StrategyCard(title: walletMockData[index].strategyName, 
+                description: walletMockData[index].description, onPressed: (){});
+              },
+            ),
           ],
         ),
       ),
