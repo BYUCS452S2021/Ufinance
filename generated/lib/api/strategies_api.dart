@@ -1,0 +1,119 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: lines_longer_than_80_chars
+
+part of openapi.api;
+
+
+class StrategiesApi {
+  StrategiesApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
+
+  /// Get strategies
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> strategiesGetWithHttpInfo() async {
+    final path = r'/strategies';
+
+    Object postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Get strategies
+  Future<InlineResponse2001> strategiesGet() async {
+    final response = await strategiesGetWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001',) as InlineResponse2001;
+        }
+    return Future<InlineResponse2001>.value(null);
+  }
+
+  /// Get strategy
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] investmentStrategy (required):
+  Future<Response> strategiesInvestmentStrategyGetWithHttpInfo(int investmentStrategy) async {
+    // Verify required params are set.
+    if (investmentStrategy == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategy');
+    }
+
+    final path = r'/strategies/{investment_strategy}'
+      .replaceAll('{' + 'investment_strategy' + '}', investmentStrategy.toString());
+
+    Object postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Get strategy
+  ///
+  /// Parameters:
+  ///
+  /// * [int] investmentStrategy (required):
+  Future<InlineResponse2001Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async {
+    final response = await strategiesInvestmentStrategyGetWithHttpInfo(investmentStrategy);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001Strategies',) as InlineResponse2001Strategies;
+        }
+    return Future<InlineResponse2001Strategies>.value(null);
+  }
+}
