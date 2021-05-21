@@ -48,7 +48,7 @@ module.exports = async function (fastify, opts) {
       headers: {
         type: 'object',
         properties: {
-          'token': { type: 'string' }
+          token: { type: 'string' }
         },
         required: ['token']
       },
@@ -88,7 +88,7 @@ module.exports = async function (fastify, opts) {
       headers: {
         type: 'object',
         properties: {
-          'token': { type: 'string' }
+          token: { type: 'string' }
         },
         required: ['token']
       },
@@ -144,7 +144,7 @@ module.exports = async function (fastify, opts) {
           middle_name: { type: 'string' },
           last_name: { type: 'string' },
           investment_strategy: { type: 'integer', minimum: 0 }
-        },
+        }
       },
       response: {
         201: {
