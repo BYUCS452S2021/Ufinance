@@ -16,6 +16,12 @@ CREATE TABLE users (
 	investment_strategy INT REFERENCES strategies ON DELETE SET NULL
 );
 
+CREATE TABLE tokens (
+    token VARCHAR PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
+    expiration_timestamp INT NOT NULL
+);
+
 CREATE TABLE holdings (
     user_id INT NOT NULL REFERENCES users ON DELETE CASCADE,
     stock_ticker VARCHAR NOT NULL,
@@ -50,11 +56,12 @@ INSERT INTO stock_prices VALUES
     ('BORING', '2021-05-10 13:00:00', 102);
 
 INSERT INTO users VALUES
-    (1, 'user1@example.com', 'some hash', 'User', NULL, '1'),
-    (2, 'user2@example.com', 'some hash', 'User', NULL, '2'),
-    (3, 'user3@example.com', 'some hash', 'User', NULL, '3'),
-    (4, 'user4@example.com', 'some hash', 'User', NULL, '4'),
-    (5, 'user5@example.com', 'some hash', 'User', NULL, '5');
+    (DEFAULT, 'user0@example.com', 'some hash', 'User', NULL, '0'),
+    (DEFAULT, 'user1@example.com', 'some hash', 'User', NULL, '1'),
+    (DEFAULT, 'user2@example.com', 'some hash', 'User', NULL, '2'),
+    (DEFAULT, 'user3@example.com', 'some hash', 'User', NULL, '3'),
+    (DEFAULT, 'user4@example.com', 'some hash', 'User', NULL, '4'),
+    (DEFAULT, 'user5@example.com', 'some hash', 'User', NULL, '5');
 
 INSERT INTO holdings VALUES
     (1, 'GME', 10),
