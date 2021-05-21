@@ -22,7 +22,7 @@ const strategiesSchema = {
   properties: {
     strategies: {
       type: 'array',
-      item: strategySchema
+      items: strategySchema
     }
   }
 }
