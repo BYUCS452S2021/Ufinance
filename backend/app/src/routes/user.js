@@ -26,8 +26,7 @@ const userSchema = {
     first_name: { type: 'string' },
     middle_name: { type: 'string' },
     last_name: { type: 'string' },
-    investment_strategy: { type: 'integer', minimum: 0 },
-    holdings: { type: 'array', items: holdingSchema }
+    investment_strategy: { type: 'integer', minimum: 0 }
   }
 }
 module.exports = async function (fastify, opts) {
@@ -51,8 +50,41 @@ module.exports = async function (fastify, opts) {
     handler: async (request, reply) => {
       const { rows: [user] } = await fastify.pg.query('select user_id, email_address, first_name, middle_name, last_name, investment_strategy from users where user_id = $1', [request.params.user_id])
       if (!user) return reply.callNotFound()
+      return user
+    }
+  })
+
+  fastify.route({
+    method: 'GET',
+    url: '/users/:user_id/holdings',
+    schema: {
+      summary: 'Get user',
+      tags: ['Users'],
+      params: {
+        type: 'object',
+        required: ['user_id'],
+        properties: {
+          user_id: { type: 'integer', minimum: 0 }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          required: ['holdings'],
+          properties: {
+            holdings: {
+              type: 'array',
+              items: holdingSchema
+            }
+          }
+        }
+      }
+    },
+    handler: async (request, reply) => {
+      const { rows: [user] } = await fastify.pg.query('select user_id, email_address, first_name, middle_name, last_name, investment_strategy from users where user_id = $1', [request.params.user_id])
+      if (!user) return reply.callNotFound()
       const { rows: holdings } = await fastify.pg.query('select stock_ticker, number_of_shares from holdings where user_id = $1', [request.params.user_id])
-      return { ...user, holdings }
+      return { holdings }
     }
   })
 }
