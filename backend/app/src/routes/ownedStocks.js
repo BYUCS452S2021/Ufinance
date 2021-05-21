@@ -10,7 +10,7 @@ module.exports = async function (fastify, opts) {
       tags: ['User'],
       params: {
         userId: {
-            type: 'integer',
+          type: 'integer'
         }
       },
       response: {
@@ -25,18 +25,17 @@ module.exports = async function (fastify, opts) {
             first_name: { type: 'string' },
             middle_name: { type: 'string' },
             las_name: { type: 'string' },
-            email_address: { type: 'string' },
             investment_strategy: { type: 'integer' }
           }
         }
       }
     },
     handler: async (request, reply) => {
-        const userId = request.params.params
-        // const { rows: [userData] } = await fastify.pg.query("SELECT * FROM users WHERE user_id = " + userId)
-        const { rows: [portfolioData] } = await fastify.pg.query(`SELECT * FROM Portfolios WHERE user_id = ${userId[0]}`)
-        // console.log("userdata: ", userData)
-        return portfolioData
+      const userId = request.params.params
+      // const { rows: [userData] } = await fastify.pg.query("SELECT * FROM users WHERE user_id = " + userId)
+      const { rows: [portfolioData] } = await fastify.pg.query(`SELECT * FROM Portfolios WHERE user_id = ${userId[0]}`)
+      // console.log("userdata: ", userData)
+      return portfolioData
     }
   })
 }
