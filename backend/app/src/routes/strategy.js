@@ -1,38 +1,70 @@
 'use strict'
 
+const strategySchema = {
+  type: 'object',
+  required: [
+    'investment_strategy',
+    'risk_lower_bound',
+    'risk_upper_bound',
+    'strategy_description'
+  ],
+  properties: {
+    investment_strategy: { type: 'integer', minimum: 0 },
+    risk_lower_bound: { type: 'number', minimum: 0 },
+    risk_upper_bound: { type: 'number', minimum: 0 },
+    strategy_description: { type: 'string' }
+  }
+}
+
+const strategiesSchema = {
+  type: 'object',
+  required: ['strategies'],
+  properties: {
+    strategies: {
+      type: 'array',
+      items: strategySchema
+    }
+  }
+}
+
 module.exports = async function (fastify, opts) {
   fastify.route({
     method: 'GET',
-    url: '/strategy/:params',
+    url: '/strategies',
     schema: {
-      summary: 'Get user from user_id',
-      description: 'Get user from user_id',
-      tags: ['User'],
-      params: {
-        strategy: {
-            type: 'integer',
-        }
-      },
+      summary: 'Get strategies',
+      tags: ['Strategies'],
       response: {
-        200: {
-          description: 'Strategy enum with upper and lower bounds',
-          type: 'object',
-          // required: ['user_id'],
-          properties: {
-            investment_strategy: { type: 'integer' },
-            upper_bound: { type: 'integer' },
-            investment_strategy: { type: 'integer' }
-          }
-        }
+        200: strategiesSchema
       }
     },
     handler: async (request, reply) => {
-        const strategyType = request.params.params
-        // const { rows: [userData] } = await fastify.pg.query("SELECT * FROM users WHERE user_id = " + userId)
-        const { rows: [strategyData] } = await fastify.pg.query(
-          `SELECT * FROM Strategies WHERE investment_strategy = ${strategyType[0]}`)
-        // console.log("userdata: ", userData)
-        return strategyData
+      const { rows: strategies } = await fastify.pg.query('select investment_strategy, risk_lower_bound, risk_upper_bound, strategy_description from strategies')
+      return { strategies }
+    }
+  })
+
+  fastify.route({
+    method: 'GET',
+    url: '/strategies/:investment_strategy',
+    schema: {
+      summary: 'Get strategy',
+      tags: ['Strategies'],
+      params: {
+        type: 'object',
+        required: ['investment_strategy'],
+        properties: {
+          investment_strategy: { type: 'integer', minimum: 0 }
+        }
+      },
+      response: {
+        200: strategySchema
+      }
+    },
+    handler: async (request, reply) => {
+      const { rows: [strategy] } = await fastify.pg.query('select investment_strategy, risk_lower_bound, risk_upper_bound, strategy_description from strategies where investment_strategy = $1', [request.params.investment_strategy])
+      if (!strategy) reply.callNotFound()
+      return strategy
     }
   })
 }
