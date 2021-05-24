@@ -18,14 +18,14 @@ void main() {
   group('tests for StrategiesApi', () {
     // Get strategies
     //
-    //Future<InlineResponse2001> strategiesGet() async
+    //Future<InlineResponse2002> strategiesGet() async
     test('test strategiesGet', () async {
       // TODO
     });
 
     // Get strategy
     //
-    //Future<InlineResponse2001Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async
+    //Future<InlineResponse2002Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async
     test('test strategiesInvestmentStrategyGet', () async {
       // TODO
     });

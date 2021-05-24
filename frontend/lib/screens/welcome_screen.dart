@@ -6,6 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/screens/registration_screen.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:openapi/api.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -49,17 +50,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
+            Column(
               children: <Widget>[
                 Hero(
                   tag: 'logo',
                   child: Container(
-                    child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    child: Image.asset('../../assets/logo.png'),
+                    height: 200.0,
                   ),
                 ),
                 AnimatedTextKit(animatedTexts: [
-                  ColorizeAnimatedText('Uinvest',
+                  ColorizeAnimatedText('UFinance',
                       textStyle: ColorizeTextStyle, colors: ColorizeColors)
                 ]),
               ],

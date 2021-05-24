@@ -26,6 +26,8 @@ dependencies:
   flutter_screenutil: ^5.0.0+2
   flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
+  openapi:
+    path: ../generated
   flutter:
     sdk: flutter
 

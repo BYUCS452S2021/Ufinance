@@ -9,21 +9,20 @@
 
 part of openapi.api;
 
-class InlineResponse2001 {
-  /// Returns a new [InlineResponse2001] instance.
-  InlineResponse2001({
-    @required this.userId,
+class InlineObject1 {
+  /// Returns a new [InlineObject1] instance.
+  InlineObject1({
     @required this.emailAddress,
+    @required this.password,
     @required this.firstName,
-    @required this.middleName,
+    this.middleName,
     @required this.lastName,
     @required this.investmentStrategy,
   });
 
-  // minimum: 0
-  int userId;
-
   String emailAddress;
+
+  String password;
 
   String firstName;
 
@@ -35,9 +34,9 @@ class InlineResponse2001 {
   int investmentStrategy;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is InlineResponse2001 &&
-     other.userId == userId &&
+  bool operator ==(Object other) => identical(this, other) || other is InlineObject1 &&
      other.emailAddress == emailAddress &&
+     other.password == password &&
      other.firstName == firstName &&
      other.middleName == middleName &&
      other.lastName == lastName &&
@@ -45,59 +44,61 @@ class InlineResponse2001 {
 
   @override
   int get hashCode =>
-    (userId == null ? 0 : userId.hashCode) +
     (emailAddress == null ? 0 : emailAddress.hashCode) +
+    (password == null ? 0 : password.hashCode) +
     (firstName == null ? 0 : firstName.hashCode) +
     (middleName == null ? 0 : middleName.hashCode) +
     (lastName == null ? 0 : lastName.hashCode) +
     (investmentStrategy == null ? 0 : investmentStrategy.hashCode);
 
   @override
-  String toString() => 'InlineResponse2001[userId=$userId, emailAddress=$emailAddress, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy]';
+  String toString() => 'InlineObject1[emailAddress=$emailAddress, password=$password, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'user_id'] = userId;
       json[r'email_address'] = emailAddress;
+      json[r'password'] = password;
       json[r'first_name'] = firstName;
+    if (middleName != null) {
       json[r'middle_name'] = middleName;
+    }
       json[r'last_name'] = lastName;
       json[r'investment_strategy'] = investmentStrategy;
     return json;
   }
 
-  /// Returns a new [InlineResponse2001] instance and imports its values from
+  /// Returns a new [InlineObject1] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static InlineResponse2001 fromJson(Map<String, dynamic> json) => json == null
+  static InlineObject1 fromJson(Map<String, dynamic> json) => json == null
     ? null
-    : InlineResponse2001(
-        userId: json[r'user_id'],
+    : InlineObject1(
         emailAddress: json[r'email_address'],
+        password: json[r'password'],
         firstName: json[r'first_name'],
         middleName: json[r'middle_name'],
         lastName: json[r'last_name'],
         investmentStrategy: json[r'investment_strategy'],
     );
 
-  static List<InlineResponse2001> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<InlineObject1> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <InlineResponse2001>[]
-      : json.map((v) => InlineResponse2001.fromJson(v)).toList(growable: true == growable);
+      ? true == emptyIsNull ? null : <InlineObject1>[]
+      : json.map((v) => InlineObject1.fromJson(v)).toList(growable: true == growable);
 
-  static Map<String, InlineResponse2001> mapFromJson(Map<String, dynamic> json) {
-    final map = <String, InlineResponse2001>{};
+  static Map<String, InlineObject1> mapFromJson(Map<String, dynamic> json) {
+    final map = <String, InlineObject1>{};
     if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = InlineResponse2001.fromJson(v));
+      json.forEach((String key, dynamic v) => map[key] = InlineObject1.fromJson(v));
     }
     return map;
   }
 
-  // maps a json object with a list of InlineResponse2001-objects as value to a dart map
-  static Map<String, List<InlineResponse2001>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
-    final map = <String, List<InlineResponse2001>>{};
+  // maps a json object with a list of InlineObject1-objects as value to a dart map
+  static Map<String, List<InlineObject1>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+    final map = <String, List<InlineObject1>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {
-        map[key] = InlineResponse2001.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+        map[key] = InlineObject1.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
       });
     }
     return map;

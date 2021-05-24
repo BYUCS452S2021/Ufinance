@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
 import 'package:frontend/data_models/strategy_model.dart';
+import 'package:frontend/data_models/user.dart';
+import 'package:openapi/api.dart';
 
 class SummaryScreen extends StatefulWidget {
   static const String id = 'summary_screen';
+  final User currUser;
+  SummaryScreen({Key key, @required this.currUser}) : super(key: key);
   @override
-  _SummaryScreen createState() => _SummaryScreen();
+  _SummaryScreen createState() => _SummaryScreen(currUser);
 }
 
-class _SummaryScreen extends State<SummaryScreen>{
-  final walletMockData = [
-    InvestmentStrategy(
-      strategyName: 'Conservative',
-      description: 'Low risk, low gains',
-    ),
-    InvestmentStrategy(
-      strategyName: 'Moderate',
-      description: 'Some risk',
-    ),
-    InvestmentStrategy(
-      strategyName: 'Agressive',
-      description: 'More risk',
-    )
-  ];
+class _SummaryScreen extends State<SummaryScreen> {
+  User _currUser;
+
+  _SummaryScreen(User currUser) {
+    this._currUser = currUser;
+    fetchStrategies();
+  }
+
+  final strategyData = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,21 +73,39 @@ class _SummaryScreen extends State<SummaryScreen>{
               ),
             ),
             SizedBox(
-                    height: 50.0,
-                  ),
-
+              height: 50.0,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: walletMockData.length,
-              itemBuilder: (BuildContext context, int index){
-                return StrategyCard(title: walletMockData[index].strategyName, 
-                description: walletMockData[index].description, onPressed: (){});
+              itemCount: strategyData.length,
+              itemBuilder: (BuildContext context, int index) {
+                return StrategyCard(
+                    title: strategyData[index].strategyName,
+                    description: strategyData[index].description,
+                    onPressed: () {});
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  void fetchStrategies() async {
+    final apiInstance = StrategiesApi();
+
+    try {
+      final result = apiInstance.strategiesGet();
+      var response = await result;
+
+      response.strategies.forEach((current) => {
+            strategyData.add(InvestmentStrategy(
+                strategyName: "Change Database",
+                description: current.strategyDescription))
+          });
+    } catch (e) {
+      print('Exception when calling LoginApi->loginPost(): $e\n');
+    }
   }
 }

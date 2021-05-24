@@ -21,13 +21,13 @@ class UsersApi {
   ///
   /// Parameters:
   ///
-  /// * [InlineObject] inlineObject:
-  Future<Response> usersPostWithHttpInfo({ InlineObject inlineObject }) async {
+  /// * [InlineObject1] inlineObject1:
+  Future<Response> usersPostWithHttpInfo({ InlineObject1 inlineObject1 }) async {
     // Verify required params are set.
 
     final path = r'/users';
 
-    Object postBody = inlineObject;
+    Object postBody = inlineObject1;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -37,6 +37,17 @@ class UsersApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,
@@ -54,9 +65,9 @@ class UsersApi {
   ///
   /// Parameters:
   ///
-  /// * [InlineObject] inlineObject:
-  Future<InlineResponse201> usersPost({ InlineObject inlineObject }) async {
-    final response = await usersPostWithHttpInfo( inlineObject: inlineObject );
+  /// * [InlineObject1] inlineObject1:
+  Future<InlineResponse201> usersPost({ InlineObject1 inlineObject1 }) async {
+    final response = await usersPostWithHttpInfo( inlineObject1: inlineObject1 );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -102,6 +113,17 @@ class UsersApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,
@@ -122,7 +144,7 @@ class UsersApi {
   /// * [int] userId (required):
   ///
   /// * [String] token (required):
-  Future<InlineResponse2003> usersUserIdGet(int userId, String token) async {
+  Future<InlineResponse2001> usersUserIdGet(int userId, String token) async {
     final response = await usersUserIdGetWithHttpInfo(userId, token);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -131,9 +153,9 @@ class UsersApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2003',) as InlineResponse2003;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001',) as InlineResponse2001;
         }
-    return Future<InlineResponse2003>.value(null);
+    return Future<InlineResponse2001>.value(null);
   }
 
   /// Get user
@@ -169,6 +191,17 @@ class UsersApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,

@@ -1,4 +1,4 @@
-# openapi.model.InlineResponse2001Strategies
+# openapi.model.InlineResponse2002Strategies
 
 ## Load the model package
 ```dart

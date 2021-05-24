@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/screens/main_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:frontend/screens/registration_screen.dart';
-import 'package:frontend/screens/main_screen.dart';
+import 'package:openapi/api.dart';
+import 'package:frontend/data_models/user.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
   @override
@@ -32,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset('../../assets/logo.png'),
                   ),
                 ),
               ),
@@ -71,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     showSpinner = true;
                   });
                   try {
-                    Navigator.popAndPushNamed(context, MainScreen.id);
+                    attemptLogin();
                     print('User will be logged in');
                     setState(() {
                       showSpinner = false;
@@ -82,9 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               RoundedButton(
-                title: 'Already have an account',
+                title: 'Create an account',
                 colour: Colors.lightBlueAccent,
-                onPressed:() {
+                onPressed: () {
                   Navigator.popAndPushNamed(context, RegistrationScreen.id);
                 },
               ),
@@ -93,5 +96,31 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void attemptLogin() async {
+    User currUser;
+    final apiInstance = LoginApi();
+
+    try {
+      final result = apiInstance.loginPost(
+          inlineObject:
+              InlineObject(emailAddress: this.email, password: this.password));
+      var response = await result;
+      // currUser = User(1, "hi", "first", "middle", "lastName", 2);
+      currUser = User(
+          response.userId,
+          response.emailAddress,
+          response.firstName,
+          response.middleName,
+          response.lastName,
+          response.investmentStrategy);
+      print(currUser);
+      if (currUser != Null) {
+        Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
+      }
+    } catch (e) {
+      print('Exception when calling LoginApi->loginPost(): $e\n');
+    }
   }
 }

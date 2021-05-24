@@ -12,57 +12,25 @@ part of openapi.api;
 class InlineResponse2003 {
   /// Returns a new [InlineResponse2003] instance.
   InlineResponse2003({
-    @required this.userId,
-    @required this.emailAddress,
-    @required this.firstName,
-    @required this.middleName,
-    @required this.lastName,
-    @required this.investmentStrategy,
+    @required this.time,
   });
 
-  // minimum: 0
-  int userId;
-
-  String emailAddress;
-
-  String firstName;
-
-  String middleName;
-
-  String lastName;
-
-  // minimum: 0
-  int investmentStrategy;
+  DateTime time;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponse2003 &&
-     other.userId == userId &&
-     other.emailAddress == emailAddress &&
-     other.firstName == firstName &&
-     other.middleName == middleName &&
-     other.lastName == lastName &&
-     other.investmentStrategy == investmentStrategy;
+     other.time == time;
 
   @override
   int get hashCode =>
-    (userId == null ? 0 : userId.hashCode) +
-    (emailAddress == null ? 0 : emailAddress.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (middleName == null ? 0 : middleName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (investmentStrategy == null ? 0 : investmentStrategy.hashCode);
+    (time == null ? 0 : time.hashCode);
 
   @override
-  String toString() => 'InlineResponse2003[userId=$userId, emailAddress=$emailAddress, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy]';
+  String toString() => 'InlineResponse2003[time=$time]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'user_id'] = userId;
-      json[r'email_address'] = emailAddress;
-      json[r'first_name'] = firstName;
-      json[r'middle_name'] = middleName;
-      json[r'last_name'] = lastName;
-      json[r'investment_strategy'] = investmentStrategy;
+      json[r'time'] = time.toUtc().toIso8601String();
     return json;
   }
 
@@ -71,12 +39,9 @@ class InlineResponse2003 {
   static InlineResponse2003 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponse2003(
-        userId: json[r'user_id'],
-        emailAddress: json[r'email_address'],
-        firstName: json[r'first_name'],
-        middleName: json[r'middle_name'],
-        lastName: json[r'last_name'],
-        investmentStrategy: json[r'investment_strategy'],
+        time: json[r'time'] == null
+          ? null
+          : DateTime.parse(json[r'time']),
     );
 
   static List<InlineResponse2003> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

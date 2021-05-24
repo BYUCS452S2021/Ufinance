@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **usersPost**
-> InlineResponse201 usersPost(inlineObject)
+> InlineResponse201 usersPost(inlineObject1)
 
 Register
 
@@ -24,10 +24,10 @@ Register
 import 'package:openapi/api.dart';
 
 final api_instance = UsersApi();
-final inlineObject = InlineObject(); // InlineObject | 
+final inlineObject1 = InlineObject1(); // InlineObject1 | 
 
 try { 
-    final result = api_instance.usersPost(inlineObject);
+    final result = api_instance.usersPost(inlineObject1);
     print(result);
 } catch (e) {
     print('Exception when calling UsersApi->usersPost: $e\n');
@@ -38,7 +38,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **inlineObject** | [**InlineObject**](InlineObject.md)|  | [optional] 
+ **inlineObject1** | [**InlineObject1**](InlineObject1.md)|  | [optional] 
 
 ### Return type
 
@@ -56,7 +56,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **usersUserIdGet**
-> InlineResponse2003 usersUserIdGet(userId, token)
+> InlineResponse2001 usersUserIdGet(userId, token)
 
 Get user
 
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2003**](InlineResponse2003.md)
+[**InlineResponse2001**](InlineResponse2001.md)
 
 ### Authorization
 

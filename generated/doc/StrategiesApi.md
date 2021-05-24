@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **strategiesGet**
-> InlineResponse2001 strategiesGet()
+> InlineResponse2002 strategiesGet()
 
 Get strategies
 
@@ -37,7 +37,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponse2001**](InlineResponse2001.md)
+[**InlineResponse2002**](InlineResponse2002.md)
 
 ### Authorization
 
@@ -51,7 +51,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **strategiesInvestmentStrategyGet**
-> InlineResponse2001Strategies strategiesInvestmentStrategyGet(investmentStrategy)
+> InlineResponse2002Strategies strategiesInvestmentStrategyGet(investmentStrategy)
 
 Get strategy
 
@@ -78,7 +78,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2001Strategies**](InlineResponse2001Strategies.md)
+[**InlineResponse2002Strategies**](InlineResponse2002Strategies.md)
 
 ### Authorization
 

@@ -10,26 +10,30 @@
 part of openapi.api;
 
 
-class HealthApi {
-  HealthApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+class LoginApi {
+  LoginApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
-  /// Healthcheck
-  ///
-  /// Healthcheck - Will respond in [this format](https://tools.ietf.org/id/draft-inadarei-api-health-check-04.html), but with `application/json`
+  /// Login
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> healthGetWithHttpInfo() async {
-    final path = r'/health';
+  ///
+  /// Parameters:
+  ///
+  /// * [InlineObject] inlineObject:
+  Future<Response> loginPostWithHttpInfo({ InlineObject inlineObject }) async {
+    // Verify required params are set.
 
-    Object postBody;
+    final path = r'/login';
+
+    Object postBody = inlineObject;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
+    final contentTypes = <String>['application/json'];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
@@ -47,7 +51,7 @@ class HealthApi {
 
     return await apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -57,11 +61,13 @@ class HealthApi {
     );
   }
 
-  /// Healthcheck
+  /// Login
   ///
-  /// Healthcheck - Will respond in [this format](https://tools.ietf.org/id/draft-inadarei-api-health-check-04.html), but with `application/json`
-  Future<InlineResponse200> healthGet() async {
-    final response = await healthGetWithHttpInfo();
+  /// Parameters:
+  ///
+  /// * [InlineObject] inlineObject:
+  Future<InlineResponse2001> loginPost({ InlineObject inlineObject }) async {
+    final response = await loginPostWithHttpInfo( inlineObject: inlineObject );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -69,8 +75,8 @@ class HealthApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse200',) as InlineResponse200;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001',) as InlineResponse2001;
         }
-    return Future<InlineResponse200>.value(null);
+    return Future<InlineResponse2001>.value(null);
   }
 }

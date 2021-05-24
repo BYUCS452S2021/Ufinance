@@ -10,18 +10,18 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for InlineResponse2001
+// tests for InlineObject1
 void main() {
-  final instance = InlineResponse2001();
+  final instance = InlineObject1();
 
-  group('test InlineResponse2001', () {
-    // int userId
-    test('to test the property `userId`', () async {
+  group('test InlineObject1', () {
+    // String emailAddress
+    test('to test the property `emailAddress`', () async {
       // TODO
     });
 
-    // String emailAddress
-    test('to test the property `emailAddress`', () async {
+    // String password
+    test('to test the property `password`', () async {
       // TODO
     });
 

@@ -27,15 +27,17 @@ part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
 part 'api/health_api.dart';
+part 'api/login_api.dart';
 part 'api/strategies_api.dart';
 part 'api/time_api.dart';
 part 'api/users_api.dart';
 
 part 'model/inline_object.dart';
+part 'model/inline_object1.dart';
 part 'model/inline_response200.dart';
 part 'model/inline_response2001.dart';
-part 'model/inline_response2001_strategies.dart';
 part 'model/inline_response2002.dart';
+part 'model/inline_response2002_strategies.dart';
 part 'model/inline_response2003.dart';
 part 'model/inline_response2004.dart';
 part 'model/inline_response2004_holdings.dart';

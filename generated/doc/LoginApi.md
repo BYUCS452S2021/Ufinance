@@ -1,4 +1,4 @@
-# openapi.api.TimeApi
+# openapi.api.LoginApi
 
 ## Load the API package
 ```dart
@@ -9,36 +9,38 @@ All URIs are relative to *http://localhost:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**timeGet**](TimeApi.md#timeget) | **GET** /time | Get time
+[**loginPost**](LoginApi.md#loginpost) | **POST** /login | Login
 
 
-# **timeGet**
-> InlineResponse2003 timeGet()
+# **loginPost**
+> InlineResponse2001 loginPost(inlineObject)
 
-Get time
-
-Get time from the database, to prove that we can connect to it
+Login
 
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
 
-final api_instance = TimeApi();
+final api_instance = LoginApi();
+final inlineObject = InlineObject(); // InlineObject | 
 
 try { 
-    final result = api_instance.timeGet();
+    final result = api_instance.loginPost(inlineObject);
     print(result);
 } catch (e) {
-    print('Exception when calling TimeApi->timeGet: $e\n');
+    print('Exception when calling LoginApi->loginPost: $e\n');
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **inlineObject** | [**InlineObject**](InlineObject.md)|  | [optional] 
 
 ### Return type
 
-[**InlineResponse2003**](InlineResponse2003.md)
+[**InlineResponse2001**](InlineResponse2001.md)
 
 ### Authorization
 
@@ -46,7 +48,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

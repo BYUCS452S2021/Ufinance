@@ -15,8 +15,8 @@ void main() {
   final instance = InlineResponse2002();
 
   group('test InlineResponse2002', () {
-    // DateTime time
-    test('to test the property `time`', () async {
+    // List<InlineResponse2002Strategies> strategies (default value: const [])
+    test('to test the property `strategies`', () async {
       // TODO
     });
 
