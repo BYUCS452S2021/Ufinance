@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/data_models/strategy_model.dart';
+import 'package:frontend/data_models/user.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:openapi/api.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -187,6 +190,57 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> registerUser() async {
     // Check if user exists
     // Add user to database and move to the main page
+    User currUser;
+    final apiInstance = UsersApi();
+
+    try {
+      final result = apiInstance.usersPost(
+          inlineObject1: InlineObject1(
+              emailAddress: this.email,
+              password: this.password,
+              firstName: this.firstName,
+              middleName: this.middleName,
+              lastName: this.lastName
+              // investmentStrategy: this.dropdownValue
+              ));
+      var response = await result;
+      // currUser = User(1, "hi", "first", "middle", "lastName", 2);
+      currUser = User(
+          response.userId,
+          response.emailAddress,
+          response.firstName,
+          response.middleName,
+          response.lastName,
+          response.investmentStrategy);
+      print(currUser);
+      if (currUser != Null) {}
+    } catch (e) {
+      print('Exception when calling LoginApi->loginPost(): $e\n');
+    }
+  }
+
+  //TODO: Refactor
+  Future<List<InvestmentStrategy>> fetchStrategies() async {
+    List<InvestmentStrategy> strategyData = [];
+    final apiInstance = StrategiesApi();
+
+    try {
+      final result = apiInstance.strategiesGet();
+      var response = await result;
+
+      response.strategies.forEach((current) => {
+            strategyData.add(InvestmentStrategy(
+                strategyId: current.investmentStrategyId,
+                strategyName: current.investmentStrategyName,
+                lowerRiskBound: current.riskLowerBound,
+                upperRiskBound: current.riskUpperBound,
+                description: current.strategyDescription))
+          });
+      return strategyData;
+    } catch (e) {
+      print('Exception when calling StrategiesApi->strategies.get(): $e\n');
+      return null;
+    }
   }
 
   void showPrompt(String prompt) {

@@ -76,15 +76,15 @@ class StrategiesApi {
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategy (required):
-  Future<Response> strategiesInvestmentStrategyGetWithHttpInfo(int investmentStrategy) async {
+  /// * [int] investmentStrategyId (required):
+  Future<Response> strategiesInvestmentStrategyIdGetWithHttpInfo(int investmentStrategyId) async {
     // Verify required params are set.
-    if (investmentStrategy == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategy');
+    if (investmentStrategyId == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategyId');
     }
 
-    final path = r'/strategies/{investment_strategy}'
-      .replaceAll('{' + 'investment_strategy' + '}', investmentStrategy.toString());
+    final path = r'/strategies/{investment_strategy_id}'
+      .replaceAll('{' + 'investment_strategy_id' + '}', investmentStrategyId.toString());
 
     Object postBody;
 
@@ -124,9 +124,9 @@ class StrategiesApi {
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategy (required):
-  Future<InlineResponse2002Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async {
-    final response = await strategiesInvestmentStrategyGetWithHttpInfo(investmentStrategy);
+  /// * [int] investmentStrategyId (required):
+  Future<InlineResponse2002Strategies> strategiesInvestmentStrategyIdGet(int investmentStrategyId) async {
+    final response = await strategiesInvestmentStrategyIdGetWithHttpInfo(investmentStrategyId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

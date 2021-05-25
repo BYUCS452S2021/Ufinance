@@ -25,8 +25,8 @@ void main() {
 
     // Get strategy
     //
-    //Future<InlineResponse2002Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async
-    test('test strategiesInvestmentStrategyGet', () async {
+    //Future<InlineResponse2002Strategies> strategiesInvestmentStrategyIdGet(int investmentStrategyId) async
+    test('test strategiesInvestmentStrategyIdGet', () async {
       // TODO
     });
 

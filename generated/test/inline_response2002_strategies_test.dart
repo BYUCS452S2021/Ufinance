@@ -15,8 +15,13 @@ void main() {
   final instance = InlineResponse2002Strategies();
 
   group('test InlineResponse2002Strategies', () {
-    // int investmentStrategy
-    test('to test the property `investmentStrategy`', () async {
+    // int investmentStrategyId
+    test('to test the property `investmentStrategyId`', () async {
+      // TODO
+    });
+
+    // String investmentStrategyName
+    test('to test the property `investmentStrategyName`', () async {
       // TODO
     });
 

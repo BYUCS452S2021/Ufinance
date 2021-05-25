@@ -12,14 +12,17 @@ part of openapi.api;
 class InlineResponse2002Strategies {
   /// Returns a new [InlineResponse2002Strategies] instance.
   InlineResponse2002Strategies({
-    @required this.investmentStrategy,
+    @required this.investmentStrategyId,
+    @required this.investmentStrategyName,
     @required this.riskLowerBound,
     @required this.riskUpperBound,
     @required this.strategyDescription,
   });
 
   // minimum: 0
-  int investmentStrategy;
+  int investmentStrategyId;
+
+  String investmentStrategyName;
 
   // minimum: 0
   num riskLowerBound;
@@ -31,24 +34,27 @@ class InlineResponse2002Strategies {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponse2002Strategies &&
-     other.investmentStrategy == investmentStrategy &&
+     other.investmentStrategyId == investmentStrategyId &&
+     other.investmentStrategyName == investmentStrategyName &&
      other.riskLowerBound == riskLowerBound &&
      other.riskUpperBound == riskUpperBound &&
      other.strategyDescription == strategyDescription;
 
   @override
   int get hashCode =>
-    (investmentStrategy == null ? 0 : investmentStrategy.hashCode) +
+    (investmentStrategyId == null ? 0 : investmentStrategyId.hashCode) +
+    (investmentStrategyName == null ? 0 : investmentStrategyName.hashCode) +
     (riskLowerBound == null ? 0 : riskLowerBound.hashCode) +
     (riskUpperBound == null ? 0 : riskUpperBound.hashCode) +
     (strategyDescription == null ? 0 : strategyDescription.hashCode);
 
   @override
-  String toString() => 'InlineResponse2002Strategies[investmentStrategy=$investmentStrategy, riskLowerBound=$riskLowerBound, riskUpperBound=$riskUpperBound, strategyDescription=$strategyDescription]';
+  String toString() => 'InlineResponse2002Strategies[investmentStrategyId=$investmentStrategyId, investmentStrategyName=$investmentStrategyName, riskLowerBound=$riskLowerBound, riskUpperBound=$riskUpperBound, strategyDescription=$strategyDescription]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'investment_strategy'] = investmentStrategy;
+      json[r'investment_strategy_id'] = investmentStrategyId;
+      json[r'investment_strategy_name'] = investmentStrategyName;
       json[r'risk_lower_bound'] = riskLowerBound;
       json[r'risk_upper_bound'] = riskUpperBound;
       json[r'strategy_description'] = strategyDescription;
@@ -60,7 +66,8 @@ class InlineResponse2002Strategies {
   static InlineResponse2002Strategies fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponse2002Strategies(
-        investmentStrategy: json[r'investment_strategy'],
+        investmentStrategyId: json[r'investment_strategy_id'],
+        investmentStrategyName: json[r'investment_strategy_name'],
         riskLowerBound: json[r'risk_lower_bound'] == null ?
           null :
           json[r'risk_lower_bound'].toDouble(),

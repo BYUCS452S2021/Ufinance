@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
+import 'package:frontend/constants.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
 import 'package:openapi/api.dart';
@@ -17,10 +18,7 @@ class _SummaryScreen extends State<SummaryScreen> {
 
   _SummaryScreen(User currUser) {
     this._currUser = currUser;
-    fetchStrategies();
   }
-
-  final strategyData = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +26,14 @@ class _SummaryScreen extends State<SummaryScreen> {
         padding: EdgeInsets.all(15.0),
         child: Column(
           children: <Widget>[
+            Text(
+              "Welcome " + _currUser.firstName,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'Horizon',
+              ),
+            ),
+            SizedBox(height: 13.0),
             Container(
               padding: EdgeInsets.all(25.0),
               decoration: BoxDecoration(
@@ -75,24 +81,65 @@ class _SummaryScreen extends State<SummaryScreen> {
             SizedBox(
               height: 50.0,
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: strategyData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return StrategyCard(
-                    title: strategyData[index].strategyName,
-                    description: strategyData[index].description,
-                    onPressed: () {});
-              },
-            ),
+            FutureBuilder(
+                future: fetchStrategies(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  // print("before if");
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return StrategyCard(
+                          title: snapshot.data[index].strategyName,
+                          description: snapshot.data[index].description,
+                          strategy: snapshot.data[index].strategyId,
+                          selectedStrategy: _currUser.investmentStrategy,
+                          onPressed: () {
+                            print(index);
+                          },
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ],
+                    );
+                  } else {
+                    // print('project snapshot data is: ${snapshot.data}');
+                    return Center(child: LinearProgressIndicator());
+                  }
+                })
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   itemCount: strategyData.length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return StrategyCard(
+            //         title: strategyData[index].strategyName,
+            //         description: strategyData[index].description,
+            //         onPressed: () {});
+            //   },
+            // ),
           ],
         ),
       ),
     );
   }
 
-  void fetchStrategies() async {
+  Future<List<InvestmentStrategy>> fetchStrategies() async {
+    List<InvestmentStrategy> strategyData = [];
     final apiInstance = StrategiesApi();
 
     try {
@@ -101,11 +148,16 @@ class _SummaryScreen extends State<SummaryScreen> {
 
       response.strategies.forEach((current) => {
             strategyData.add(InvestmentStrategy(
-                strategyName: "Change Database",
+                strategyId: current.investmentStrategyId,
+                strategyName: current.investmentStrategyName,
+                lowerRiskBound: current.riskLowerBound,
+                upperRiskBound: current.riskUpperBound,
                 description: current.strategyDescription))
           });
+      return strategyData;
     } catch (e) {
-      print('Exception when calling LoginApi->loginPost(): $e\n');
+      print('Exception when calling StrategiesApi->strategies.get(): $e\n');
+      return null;
     }
   }
 }
