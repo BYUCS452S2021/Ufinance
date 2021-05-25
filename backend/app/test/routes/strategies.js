@@ -29,7 +29,7 @@ const mockStrategies = [
     risk_lower_bound: 75,
     risk_upper_bound: 100,
     strategy_description: 'Seeks outsized gains and accepts the outsized risks that go with them. High-risk, high-reward'
-  },
+  }
 ]
 
 describe('GET /strategies', () => {
