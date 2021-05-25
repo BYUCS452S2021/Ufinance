@@ -58,12 +58,11 @@ INSERT INTO stock_prices VALUES
     ('BORING', '2021-05-10 13:00:00', 102);
 
 INSERT INTO users VALUES
-    (DEFAULT, 'user0@example.com', 'some hash', 'User', NULL, '1'),
-    (DEFAULT, 'user1@example.com', 'some hash', 'User', NULL, '2'),
-    (DEFAULT, 'user2@example.com', 'some hash', 'User', NULL, '3'),
-    (DEFAULT, 'user3@example.com', 'some hash', 'User', NULL, '3'),
-    (DEFAULT, 'user4@example.com', 'some hash', 'User', NULL, '4'),
-    (DEFAULT, 'user5@example.com', 'some hash', 'User', NULL, '1');
+    (DEFAULT, 'user1@example.com', 'some hash', 'User', NULL, '1', 1),
+    (DEFAULT, 'user2@example.com', 'some hash', 'User', NULL, '2', 1),
+    (DEFAULT, 'user3@example.com', 'some hash', 'User', NULL, '3', 1),
+    (DEFAULT, 'user4@example.com', 'some hash', 'User', NULL, '4', 1),
+    (DEFAULT, 'user5@example.com', 'some hash', 'User', NULL, '5', 1);
 
 INSERT INTO holdings VALUES
     ((select user_id from users where email_address = 'user1@example.com'), 'GME', 10),
