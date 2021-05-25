@@ -66,9 +66,14 @@ INSERT INTO users VALUES
     (DEFAULT, 'user5@example.com', 'some hash', 'User', NULL, '1');
 
 INSERT INTO holdings VALUES
-    (1, 'GME', 10),
-    (1, 'AMC', 10),
-    (2, 'GME', 5);
+    ((select user_id from users where email_address = 'user1@example.com'), 'GME', 10),
+    ((select user_id from users where email_address = 'user1@example.com'), 'AMC', 10),
+    ((select user_id from users where email_address = 'user2@example.com'), 'GME', 5);
+
+INSERT INTO tokens VALUES
+    ('token1', (select user_id from users where email_address = 'user1@example.com'), 10),
+    ('token2', (select user_id from users where email_address = 'user2@example.com'), 10),
+    ('token3', (select user_id from users where email_address = 'user3@example.com'), 10);
 
 CREATE MATERIALIZED VIEW stock_statistics AS
     SELECT
