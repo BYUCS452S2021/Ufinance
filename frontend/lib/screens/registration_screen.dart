@@ -243,7 +243,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           response.firstName,
           response.middleName,
           response.lastName,
-          response.investmentStrategy);
+          response.investmentStrategy,
+          response.token);
       print(currUser);
       if (currUser != Null) {
         Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
@@ -278,6 +279,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+//Todo: Refactor
   void showPrompt(String prompt) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

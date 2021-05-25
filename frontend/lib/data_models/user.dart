@@ -5,6 +5,7 @@ class User {
   final String middleName;
   final String lastName;
   final int investmentStrategy;
+  String token;
 
   User(
     this.userId,
@@ -13,5 +14,6 @@ class User {
     this.middleName,
     this.lastName,
     this.investmentStrategy,
+    this.token,
   );
 }

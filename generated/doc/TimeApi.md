@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **timeGet**
-> InlineResponse2003 timeGet()
+> InlineResponse2004 timeGet()
 
 Get time
 
@@ -38,7 +38,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponse2003**](InlineResponse2003.md)
+[**InlineResponse2004**](InlineResponse2004.md)
 
 ### Authorization
 

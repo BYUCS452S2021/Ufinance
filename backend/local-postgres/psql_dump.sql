@@ -55,25 +55,37 @@ INSERT INTO stock_prices VALUES
     ('BORING', '2021-05-10 10:00:00', 101),
     ('BORING', '2021-05-10 11:00:00', 102),
     ('BORING', '2021-05-10 12:00:00', 102.5),
-    ('BORING', '2021-05-10 13:00:00', 102);
+    ('BORING', '2021-05-10 13:00:00', 102),
+    ('AWH', '2021-05-10 13:00:00', 45),
+    ('BTW', '2021-05-10 13:00:00', 82.5),
+    ('AAPL', '2021-05-10 13:00:00', 970),
+    ('DOGE', '2021-05-10 13:00:00', .40),
+    ('BHU', '2021-05-10 13:00:00', 12),
+    ('SAP', '2021-05-10 13:00:00', 500);
 
 INSERT INTO users VALUES
-    (DEFAULT, 'user0@example.com', 'some hash', 'User', NULL, '1'),
-    (DEFAULT, 'user1@example.com', 'some hash', 'User', NULL, '2'),
-    (DEFAULT, 'user2@example.com', 'some hash', 'User', NULL, '3'),
-    (DEFAULT, 'user3@example.com', 'some hash', 'User', NULL, '3'),
-    (DEFAULT, 'user4@example.com', 'some hash', 'User', NULL, '4'),
-    (DEFAULT, 'user5@example.com', 'some hash', 'User', NULL, '1');
+    (DEFAULT, 'john@example.com', 'some hash', 'John', NULL, 'Adams', 1),
+    (DEFAULT, 'sam@example.com', 'some hash', 'Samantha', NULL, 'McGrady', 2),
+    (DEFAULT, 'greg@example.com', 'some hash', 'Greg', NULL, 'Wild', 3),
+    (DEFAULT, 'user3@example.com', 'some hash', 'Steve', NULL, 'Bobby', 3),
+    (DEFAULT, 'user4@example.com', 'some hash', 'Stacy', NULL, 'Jeffries', 4),
+    (DEFAULT, 'user5@example.com', 'some hash', 'Gwen', NULL, 'Small', 1);
 
 INSERT INTO holdings VALUES
-    ((select user_id from users where email_address = 'user1@example.com'), 'GME', 10),
-    ((select user_id from users where email_address = 'user1@example.com'), 'AMC', 10),
-    ((select user_id from users where email_address = 'user2@example.com'), 'GME', 5);
+    ((select user_id from users where email_address = 'sam@example.com'), 'GME', 1),
+    ((select user_id from users where email_address = 'sam@example.com'), 'AMC', 3),
+    ((select user_id from users where email_address = 'sam@example.com'), 'AWH', 4),
+    ((select user_id from users where email_address = 'sam@example.com'), 'BTW', 80),
+    ((select user_id from users where email_address = 'sam@example.com'), 'AAPL', 1),
+    ((select user_id from users where email_address = 'sam@example.com'), 'DOGE', 300),
+    ((select user_id from users where email_address = 'sam@example.com'), 'BHU', 4),
+    ((select user_id from users where email_address = 'sam@example.com'), 'SAP', 6),
+    ((select user_id from users where email_address = 'greg@example.com'), 'GME', 5);
 
-INSERT INTO tokens VALUES
-    ('token1', (select user_id from users where email_address = 'user1@example.com'), 10),
-    ('token2', (select user_id from users where email_address = 'user2@example.com'), 10),
-    ('token3', (select user_id from users where email_address = 'user3@example.com'), 10);
+-- INSERT INTO tokens VALUES
+    -- ('token1', (select user_id from users where email_address = 'user1@example.com'), 10),
+    -- ('token2', (select user_id from users where email_address = 'user2@example.com'), 10),
+    -- ('token3', (select user_id from users where email_address = 'user3@example.com'), 10);
 
 CREATE MATERIALIZED VIEW stock_statistics AS
     SELECT

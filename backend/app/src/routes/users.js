@@ -121,6 +121,55 @@ module.exports = async function (fastify, opts) {
       return { holdings }
     }
   })
+  
+  fastify.route({
+    method: 'GET',
+    url: '/users/:user_id/allholdings',
+    schema: {
+      summary: 'Get total holdings value for user',
+      tags: ['Users'],
+      params: {
+        type: 'object',
+        required: ['user_id'],
+        properties: {
+          user_id: { type: 'integer', minimum: 0 }
+        }
+      },
+      headers: {
+        type: 'object',
+        properties: {
+          token: { type: 'string' }
+        },
+        required: ['token']
+      },
+      response: {
+        200: {
+          type: 'object',
+          required: ['total_value'],
+          properties: {
+            total_value: {
+              type: 'string',
+            }
+          }
+        }
+      }
+    },
+    preHandler: fastify.auth([fastify.authenticate]),
+    handler: async (request, reply) => {
+      if (request.user_id !== request.params.user_id) {
+        reply.code(403)
+        return {
+          statusCode: 403,
+          error: 'Forbidden',
+          message: 'Not authorized'
+        }
+      }
+      const { rows: [user] } = await fastify.pg.query('select user_id, email_address, first_name, middle_name, last_name, investment_strategy from users where user_id = $1', [request.params.user_id])
+      if (!user) return reply.callNotFound()
+      const { rows: [total_value] } = await fastify.pg.query('select SUM(current_price * number_of_shares) as total_value from holdings as h inner join stock_statistics as s on h.stock_ticker = s.stock_ticker where user_id = $1', [request.params.user_id])
+      return total_value 
+    }
+  })
 
   fastify.route({
     method: 'POST',

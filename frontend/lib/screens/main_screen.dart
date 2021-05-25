@@ -49,7 +49,7 @@ class _MainScreen extends State<MainScreen> with TickerProviderStateMixin {
             child: SummaryScreen(currUser: args),
           ),
           Center(
-            child: HoldingsScreen(),
+            child: HoldingsScreen(currUser: args),
           ),
           Center(
             child: Text('It\'s sunny here'),

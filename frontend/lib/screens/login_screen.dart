@@ -109,21 +109,40 @@ class _LoginScreenState extends State<LoginScreen> {
       var response = await result;
       // currUser = User(1, "hi", "first", "middle", "lastName", 2);
       currUser = User(
-          response.userId,
-          response.emailAddress,
-          response.firstName,
-          response.middleName,
-          response.lastName,
-          response.investmentStrategy);
+        response.userId,
+        response.emailAddress,
+        response.firstName,
+        response.middleName,
+        response.lastName,
+        response.investmentStrategy,
+        response.token,
+      );
       if (currUser != Null) {
         Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
       }
     } catch (e) {
       print('Exception when calling LoginApi->loginPost(): $e\n');
+      showPrompt("Invalid username or password, please try again");
     }
+
     // TODO: Delete
-    Navigator.popAndPushNamed(context, MainScreen.id,
-        arguments:
-            User(100, "test@gmail.com", "Mr. Test", "Middle", "McTester", 2));
+    // Navigator.popAndPushNamed(context, MainScreen.id,
+    //     arguments: User(100, "test@gmail.com", "Mr. Test", "Middle", "McTester",
+    //         2, "token"));
+  }
+
+  //TODO: Refactor
+  void showPrompt(String prompt) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.blue[900],
+        content: Text(prompt,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 26,
+                color: Colors.white,
+                fontWeight: FontWeight.w400)),
+      ),
+    );
   }
 }

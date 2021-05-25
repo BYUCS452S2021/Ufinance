@@ -1,4 +1,4 @@
-# openapi.model.InlineResponse2001
+# openapi.model.InlineResponse2005
 
 ## Load the model package
 ```dart
@@ -14,7 +14,6 @@ Name | Type | Description | Notes
 **middleName** | **String** |  | 
 **lastName** | **String** |  | 
 **investmentStrategy** | **int** |  | 
-**token** | **String** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

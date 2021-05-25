@@ -1,4 +1,4 @@
-# openapi.api.StrategiesApi
+# openapi.api.StockStatisticsApi
 
 ## Load the API package
 ```dart
@@ -9,26 +9,26 @@ All URIs are relative to *http://localhost:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**strategiesGet**](StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
-[**strategiesInvestmentStrategyIdGet**](StrategiesApi.md#strategiesinvestmentstrategyidget) | **GET** /strategies/{investment_strategy_id} | Get strategy
+[**stockStatisticsGet**](StockStatisticsApi.md#stockstatisticsget) | **GET** /stock_statistics | Get stock statistics
+[**stockStatisticsStockTickerGet**](StockStatisticsApi.md#stockstatisticsstocktickerget) | **GET** /stock_statistics/{stock_ticker} | Get stock statistics for a stock ticker
 
 
-# **strategiesGet**
-> InlineResponse2003 strategiesGet()
+# **stockStatisticsGet**
+> InlineResponse2002 stockStatisticsGet()
 
-Get strategies
+Get stock statistics
 
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
 
-final api_instance = StrategiesApi();
+final api_instance = StockStatisticsApi();
 
 try { 
-    final result = api_instance.strategiesGet();
+    final result = api_instance.stockStatisticsGet();
     print(result);
 } catch (e) {
-    print('Exception when calling StrategiesApi->strategiesGet: $e\n');
+    print('Exception when calling StockStatisticsApi->stockStatisticsGet: $e\n');
 }
 ```
 
@@ -37,7 +37,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponse2003**](InlineResponse2003.md)
+[**InlineResponse2002**](InlineResponse2002.md)
 
 ### Authorization
 
@@ -50,23 +50,23 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **strategiesInvestmentStrategyIdGet**
-> InlineResponse2003Strategies strategiesInvestmentStrategyIdGet(investmentStrategyId)
+# **stockStatisticsStockTickerGet**
+> InlineResponse2002StockStatistics stockStatisticsStockTickerGet(stockTicker)
 
-Get strategy
+Get stock statistics for a stock ticker
 
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
 
-final api_instance = StrategiesApi();
-final investmentStrategyId = 56; // int | 
+final api_instance = StockStatisticsApi();
+final stockTicker = stockTicker_example; // String | 
 
 try { 
-    final result = api_instance.strategiesInvestmentStrategyIdGet(investmentStrategyId);
+    final result = api_instance.stockStatisticsStockTickerGet(stockTicker);
     print(result);
 } catch (e) {
-    print('Exception when calling StrategiesApi->strategiesInvestmentStrategyIdGet: $e\n');
+    print('Exception when calling StockStatisticsApi->stockStatisticsStockTickerGet: $e\n');
 }
 ```
 
@@ -74,11 +74,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **investmentStrategyId** | **int**|  | 
+ **stockTicker** | **String**|  | 
 
 ### Return type
 
-[**InlineResponse2003Strategies**](InlineResponse2003Strategies.md)
+[**InlineResponse2002StockStatistics**](InlineResponse2002StockStatistics.md)
 
 ### Authorization
 
