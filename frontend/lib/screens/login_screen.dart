@@ -116,11 +116,13 @@ class _LoginScreenState extends State<LoginScreen> {
           response.lastName,
           response.investmentStrategy);
       print(currUser);
-      if (currUser != Null) {
-        Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
-      }
+      if (currUser != Null) {}
     } catch (e) {
       print('Exception when calling LoginApi->loginPost(): $e\n');
     }
+    // TODO: Delete
+    Navigator.popAndPushNamed(context, MainScreen.id,
+        arguments:
+            User(100, "test@gmail.com", "Mr. Test", "Middle", "McTester", 2));
   }
 }

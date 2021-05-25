@@ -1,4 +1,3 @@
-import 'package:frontend/constants.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 
 final walletMockData = [

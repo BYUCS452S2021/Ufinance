@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data_models/user.dart';
 import 'package:frontend/screens/summary_screen.dart';
-import 'package:frontend/constants.dart';
 import 'package:frontend/screens/holdings_screen.dart';
 
 class MainScreen extends StatefulWidget {

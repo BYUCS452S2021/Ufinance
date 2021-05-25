@@ -8,7 +8,8 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**investmentStrategy** | **int** |  | 
+**investmentStrategyId** | **int** |  | 
+**investmentStrategyName** | **String** |  | 
 **riskLowerBound** | **num** |  | 
 **riskUpperBound** | **num** |  | 
 **strategyDescription** | **String** |  | 

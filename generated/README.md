@@ -60,7 +60,7 @@ Class | Method | HTTP request | Description
 *HealthApi* | [**healthGet**](doc\/HealthApi.md#healthget) | **GET** /health | Healthcheck
 *LoginApi* | [**loginPost**](doc\/LoginApi.md#loginpost) | **POST** /login | Login
 *StrategiesApi* | [**strategiesGet**](doc\/StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
-*StrategiesApi* | [**strategiesInvestmentStrategyGet**](doc\/StrategiesApi.md#strategiesinvestmentstrategyget) | **GET** /strategies/{investment_strategy} | Get strategy
+*StrategiesApi* | [**strategiesInvestmentStrategyIdGet**](doc\/StrategiesApi.md#strategiesinvestmentstrategyidget) | **GET** /strategies/{investment_strategy_id} | Get strategy
 *TimeApi* | [**timeGet**](doc\/TimeApi.md#timeget) | **GET** /time | Get time
 *UsersApi* | [**usersPost**](doc\/UsersApi.md#userspost) | **POST** /users | Register
 *UsersApi* | [**usersUserIdGet**](doc\/UsersApi.md#usersuseridget) | **GET** /users/{user_id} | Get user
