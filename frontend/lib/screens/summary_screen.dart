@@ -62,19 +62,31 @@ class _SummaryScreen extends State<SummaryScreen> {
                       )
                     ],
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "291.01",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .apply(color: Colors.white, fontWeightDelta: 2),
-                        ),
-                      ],
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: fetchTotalValue(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: snapshot.data.toString() != ""
+                                      ? snapshot.data.toString()
+                                      : "\$0",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .apply(
+                                          color: Colors.white,
+                                          fontWeightDelta: 2),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Text('Loading...');
+                        }
+                      })
                 ],
               ),
             ),
@@ -157,6 +169,20 @@ class _SummaryScreen extends State<SummaryScreen> {
       return strategyData;
     } catch (e) {
       print('Exception when calling StrategiesApi->strategies.get(): $e\n');
+      return null;
+    }
+  }
+
+  Future<String> fetchTotalValue() async {
+    final apiInstance = UsersApi();
+
+    try {
+      final result = apiInstance.usersUserIdAllholdingsGet(
+          _currUser.userId, _currUser.token);
+      var response = await result;
+      return response.totalValue;
+    } catch (e) {
+      print('Exception when calling UsersApi->usersUserIdAllholdingsGet: $e\n');
       return null;
     }
   }

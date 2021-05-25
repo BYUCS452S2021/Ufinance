@@ -12,25 +12,25 @@ part of openapi.api;
 class InlineResponse2004 {
   /// Returns a new [InlineResponse2004] instance.
   InlineResponse2004({
-    this.holdings = const [],
+    @required this.time,
   });
 
-  List<InlineResponse2004Holdings> holdings;
+  DateTime time;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponse2004 &&
-     other.holdings == holdings;
+     other.time == time;
 
   @override
   int get hashCode =>
-    (holdings == null ? 0 : holdings.hashCode);
+    (time == null ? 0 : time.hashCode);
 
   @override
-  String toString() => 'InlineResponse2004[holdings=$holdings]';
+  String toString() => 'InlineResponse2004[time=$time]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'holdings'] = holdings;
+      json[r'time'] = time.toUtc().toIso8601String();
     return json;
   }
 
@@ -39,7 +39,9 @@ class InlineResponse2004 {
   static InlineResponse2004 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponse2004(
-        holdings: InlineResponse2004Holdings.listFromJson(json[r'holdings']),
+        time: json[r'time'] == null
+          ? null
+          : DateTime.parse(json[r'time']),
     );
 
   static List<InlineResponse2004> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

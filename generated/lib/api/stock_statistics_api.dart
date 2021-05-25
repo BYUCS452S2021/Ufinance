@@ -10,16 +10,16 @@
 part of openapi.api;
 
 
-class StrategiesApi {
-  StrategiesApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+class StockStatisticsApi {
+  StockStatisticsApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
-  /// Get strategies
+  /// Get stock statistics
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> strategiesGetWithHttpInfo() async {
-    final path = r'/strategies';
+  Future<Response> stockStatisticsGetWithHttpInfo() async {
+    final path = r'/stock_statistics';
 
     Object postBody;
 
@@ -55,9 +55,9 @@ class StrategiesApi {
     );
   }
 
-  /// Get strategies
-  Future<InlineResponse2003> strategiesGet() async {
-    final response = await strategiesGetWithHttpInfo();
+  /// Get stock statistics
+  Future<InlineResponse2002> stockStatisticsGet() async {
+    final response = await stockStatisticsGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -65,26 +65,26 @@ class StrategiesApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2003',) as InlineResponse2003;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2002',) as InlineResponse2002;
         }
-    return Future<InlineResponse2003>.value(null);
+    return Future<InlineResponse2002>.value(null);
   }
 
-  /// Get strategy
+  /// Get stock statistics for a stock ticker
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategyId (required):
-  Future<Response> strategiesInvestmentStrategyIdGetWithHttpInfo(int investmentStrategyId) async {
+  /// * [String] stockTicker (required):
+  Future<Response> stockStatisticsStockTickerGetWithHttpInfo(String stockTicker) async {
     // Verify required params are set.
-    if (investmentStrategyId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategyId');
+    if (stockTicker == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: stockTicker');
     }
 
-    final path = r'/strategies/{investment_strategy_id}'
-      .replaceAll('{' + 'investment_strategy_id' + '}', investmentStrategyId.toString());
+    final path = r'/stock_statistics/{stock_ticker}'
+      .replaceAll('{' + 'stock_ticker' + '}', stockTicker.toString());
 
     Object postBody;
 
@@ -120,13 +120,13 @@ class StrategiesApi {
     );
   }
 
-  /// Get strategy
+  /// Get stock statistics for a stock ticker
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategyId (required):
-  Future<InlineResponse2003Strategies> strategiesInvestmentStrategyIdGet(int investmentStrategyId) async {
-    final response = await strategiesInvestmentStrategyIdGetWithHttpInfo(investmentStrategyId);
+  /// * [String] stockTicker (required):
+  Future<InlineResponse2002StockStatistics> stockStatisticsStockTickerGet(String stockTicker) async {
+    final response = await stockStatisticsStockTickerGetWithHttpInfo(stockTicker);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -134,8 +134,8 @@ class StrategiesApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2003Strategies',) as InlineResponse2003Strategies;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2002StockStatistics',) as InlineResponse2002StockStatistics;
         }
-    return Future<InlineResponse2003Strategies>.value(null);
+    return Future<InlineResponse2002StockStatistics>.value(null);
   }
 }

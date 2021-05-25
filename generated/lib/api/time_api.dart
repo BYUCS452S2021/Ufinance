@@ -60,7 +60,7 @@ class TimeApi {
   /// Get time
   ///
   /// Get time from the database, to prove that we can connect to it
-  Future<InlineResponse2003> timeGet() async {
+  Future<InlineResponse2004> timeGet() async {
     final response = await timeGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -69,8 +69,8 @@ class TimeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2003',) as InlineResponse2003;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2004',) as InlineResponse2004;
         }
-    return Future<InlineResponse2003>.value(null);
+    return Future<InlineResponse2004>.value(null);
   }
 }

@@ -262,16 +262,22 @@ class ApiClient {
           return InlineResponse2001.fromJson(value);
         case 'InlineResponse2002':
           return InlineResponse2002.fromJson(value);
-        case 'InlineResponse2002Strategies':
-          return InlineResponse2002Strategies.fromJson(value);
+        case 'InlineResponse2002StockStatistics':
+          return InlineResponse2002StockStatistics.fromJson(value);
         case 'InlineResponse2003':
           return InlineResponse2003.fromJson(value);
+        case 'InlineResponse2003Strategies':
+          return InlineResponse2003Strategies.fromJson(value);
         case 'InlineResponse2004':
           return InlineResponse2004.fromJson(value);
-        case 'InlineResponse2004Holdings':
-          return InlineResponse2004Holdings.fromJson(value);
-        case 'InlineResponse201':
-          return InlineResponse201.fromJson(value);
+        case 'InlineResponse2005':
+          return InlineResponse2005.fromJson(value);
+        case 'InlineResponse2006':
+          return InlineResponse2006.fromJson(value);
+        case 'InlineResponse2006Holdings':
+          return InlineResponse2006Holdings.fromJson(value);
+        case 'InlineResponse2007':
+          return InlineResponse2007.fromJson(value);
         case 'InlineResponse400':
           return InlineResponse400.fromJson(value);
         default:

@@ -3,6 +3,7 @@ import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
+import 'package:frontend/screens/main_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:openapi/api.dart';
 
@@ -23,7 +24,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String middleName;
   String lastName;
   String dropdownValue;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,8 +143,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       dropdownValue = newValue;
                     });
                   },
-                  items: <String>['Conservative', 'Moderate', 'Agressive']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  //TODO: Refactor
+                  items: <String>[
+                    "Safe",
+                    "Conservative",
+                    "Moderate",
+                    "Aggressive"
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -182,6 +187,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       passwordText.clear();
       passwordRetypeText.clear();
       showPrompt('Passwords do not match');
+    } else if (password.length < 8) {
+      passwordText.clear();
+      passwordRetypeText.clear();
+      showPrompt('Password must be at least 8 characters');
     } else {
       registerUser();
     }
@@ -192,6 +201,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // Add user to database and move to the main page
     User currUser;
     final apiInstance = UsersApi();
+    int selectedStrategy;
+    //TODO: Refactor
+    switch (dropdownValue) {
+      case "Safe":
+        {
+          selectedStrategy = 1;
+        }
+        break;
+      case "Conservative":
+        {
+          selectedStrategy = 2;
+        }
+        break;
+      case "Moderate":
+        {
+          selectedStrategy = 3;
+        }
+        break;
+      case "Aggressive":
+        {
+          selectedStrategy = 4;
+        }
+        break;
+    }
 
     try {
       final result = apiInstance.usersPost(
@@ -200,9 +233,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               password: this.password,
               firstName: this.firstName,
               middleName: this.middleName,
-              lastName: this.lastName
-              // investmentStrategy: this.dropdownValue
-              ));
+              lastName: this.lastName,
+              investmentStrategy: selectedStrategy));
       var response = await result;
       // currUser = User(1, "hi", "first", "middle", "lastName", 2);
       currUser = User(
@@ -211,11 +243,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           response.firstName,
           response.middleName,
           response.lastName,
-          response.investmentStrategy);
+          response.investmentStrategy,
+          response.token);
       print(currUser);
-      if (currUser != Null) {}
+      if (currUser != Null) {
+        Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
+      }
     } catch (e) {
-      print('Exception when calling LoginApi->loginPost(): $e\n');
+      print('Exception when calling UserApi->usersPost(): $e\n');
+      showPrompt("Email already taken");
     }
   }
 
@@ -243,6 +279,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+//Todo: Refactor
   void showPrompt(String prompt) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
