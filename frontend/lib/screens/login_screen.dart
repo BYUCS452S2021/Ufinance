@@ -115,8 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
           response.middleName,
           response.lastName,
           response.investmentStrategy);
-      print(currUser);
-      if (currUser != Null) {}
+      if (currUser != Null) {
+        Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
+      }
     } catch (e) {
       print('Exception when calling LoginApi->loginPost(): $e\n');
     }
