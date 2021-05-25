@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    name: 🚀
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Build app
+        working-directory: backend/app
+        run: docker build .
+      # TODO: Deploy to Fargate and RDS using Terraform
