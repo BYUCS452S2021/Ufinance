@@ -4,9 +4,6 @@ on:
   pull_request:
     paths:
       - frontend/**
-  push:
-    paths:
-      - frontend/**
 
 env:
   java_version: 14.x

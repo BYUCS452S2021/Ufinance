@@ -171,7 +171,14 @@ module.exports = async function (fastify, opts) {
       }
     },
     handler: async (request, reply) => {
-      const { email_address, password, first_name, middle_name = null, last_name, investment_strategy } = request.body
+      const {
+        email_address: emailAddress,
+        password,
+        first_name: firstName,
+        middle_name: middleName = null,
+        last_name: lastName,
+        investment_strategy: investmentStrategy
+      } = request.body
       const passwordHash = password // TODO
       // TODO: Handle database error on duplicate email address, return 400 in that case
       const { rows: [user] } = await fastify.pg.query(
@@ -179,7 +186,7 @@ module.exports = async function (fastify, opts) {
                 (user_id, email_address, password_hash, first_name, middle_name, last_name, investment_strategy)
          values (DEFAULT, $1, $2, $3, $4, $5, $6) 
          returning user_id, email_address, first_name, middle_name, last_name, investment_strategy`,
-        [email_address, passwordHash, first_name, middle_name, last_name, investment_strategy]
+        [emailAddress, passwordHash, firstName, middleName, lastName, investmentStrategy]
       )
       const token = uuid()
       const expirationTimestamp = 123 // TODO

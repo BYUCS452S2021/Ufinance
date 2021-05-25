@@ -11,7 +11,7 @@ const strategySchema = {
   ],
   properties: {
     investment_strategy_id: { type: 'integer', minimum: 0 },
-    investment_strategy_name: { type: 'string'},
+    investment_strategy_name: { type: 'string' },
     risk_lower_bound: { type: 'number', minimum: 0 },
     risk_upper_bound: { type: 'number', minimum: 0 },
     strategy_description: { type: 'string' }
