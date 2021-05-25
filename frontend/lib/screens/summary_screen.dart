@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
+import 'package:frontend/constants.dart';
 import 'package:frontend/data_models/strategy_model.dart';
+import 'package:frontend/data_models/user.dart';
+import 'package:openapi/api.dart';
 
 class SummaryScreen extends StatefulWidget {
   static const String id = 'summary_screen';
+  final User currUser;
+  SummaryScreen({Key key, @required this.currUser}) : super(key: key);
   @override
-  _SummaryScreen createState() => _SummaryScreen();
+  _SummaryScreen createState() => _SummaryScreen(currUser);
 }
 
-class _SummaryScreen extends State<SummaryScreen>{
-  final walletMockData = [
-    InvestmentStrategy(
-      strategyName: 'Conservative',
-      description: 'Low risk, low gains',
-    ),
-    InvestmentStrategy(
-      strategyName: 'Moderate',
-      description: 'Some risk',
-    ),
-    InvestmentStrategy(
-      strategyName: 'Agressive',
-      description: 'More risk',
-    )
-  ];
+class _SummaryScreen extends State<SummaryScreen> {
+  User _currUser;
+
+  _SummaryScreen(User currUser) {
+    this._currUser = currUser;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +26,14 @@ class _SummaryScreen extends State<SummaryScreen>{
         padding: EdgeInsets.all(15.0),
         child: Column(
           children: <Widget>[
+            Text(
+              "Welcome " + _currUser.firstName,
+              style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'Horizon',
+              ),
+            ),
+            SizedBox(height: 13.0),
             Container(
               padding: EdgeInsets.all(25.0),
               decoration: BoxDecoration(
@@ -75,21 +79,85 @@ class _SummaryScreen extends State<SummaryScreen>{
               ),
             ),
             SizedBox(
-                    height: 50.0,
-                  ),
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: walletMockData.length,
-              itemBuilder: (BuildContext context, int index){
-                return StrategyCard(title: walletMockData[index].strategyName, 
-                description: walletMockData[index].description, onPressed: (){});
-              },
+              height: 50.0,
             ),
+            FutureBuilder(
+                future: fetchStrategies(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  // print("before if");
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return StrategyCard(
+                          title: snapshot.data[index].strategyName,
+                          description: snapshot.data[index].description,
+                          strategy: snapshot.data[index].strategyId,
+                          selectedStrategy: _currUser.investmentStrategy,
+                          onPressed: () {
+                            print(index);
+                          },
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ],
+                    );
+                  } else {
+                    // print('project snapshot data is: ${snapshot.data}');
+                    return Center(child: LinearProgressIndicator());
+                  }
+                })
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   itemCount: strategyData.length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return StrategyCard(
+            //         title: strategyData[index].strategyName,
+            //         description: strategyData[index].description,
+            //         onPressed: () {});
+            //   },
+            // ),
           ],
         ),
       ),
     );
+  }
+
+  Future<List<InvestmentStrategy>> fetchStrategies() async {
+    List<InvestmentStrategy> strategyData = [];
+    final apiInstance = StrategiesApi();
+
+    try {
+      final result = apiInstance.strategiesGet();
+      var response = await result;
+
+      response.strategies.forEach((current) => {
+            strategyData.add(InvestmentStrategy(
+                strategyId: current.investmentStrategyId,
+                strategyName: current.investmentStrategyName,
+                lowerRiskBound: current.riskLowerBound,
+                upperRiskBound: current.riskUpperBound,
+                description: current.strategyDescription))
+          });
+      return strategyData;
+    } catch (e) {
+      print('Exception when calling StrategiesApi->strategies.get(): $e\n');
+      return null;
+    }
   }
 }

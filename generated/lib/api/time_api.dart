@@ -33,6 +33,17 @@ class TimeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,
@@ -49,7 +60,7 @@ class TimeApi {
   /// Get time
   ///
   /// Get time from the database, to prove that we can connect to it
-  Future<InlineResponse2002> timeGet() async {
+  Future<InlineResponse2003> timeGet() async {
     final response = await timeGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -58,8 +69,8 @@ class TimeApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2002',) as InlineResponse2002;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2003',) as InlineResponse2003;
         }
-    return Future<InlineResponse2002>.value(null);
+    return Future<InlineResponse2003>.value(null);
   }
 }

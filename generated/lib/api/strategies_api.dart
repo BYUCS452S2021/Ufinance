@@ -31,6 +31,17 @@ class StrategiesApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,
@@ -45,7 +56,7 @@ class StrategiesApi {
   }
 
   /// Get strategies
-  Future<InlineResponse2001> strategiesGet() async {
+  Future<InlineResponse2002> strategiesGet() async {
     final response = await strategiesGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -54,9 +65,9 @@ class StrategiesApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001',) as InlineResponse2001;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2002',) as InlineResponse2002;
         }
-    return Future<InlineResponse2001>.value(null);
+    return Future<InlineResponse2002>.value(null);
   }
 
   /// Get strategy
@@ -65,15 +76,15 @@ class StrategiesApi {
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategy (required):
-  Future<Response> strategiesInvestmentStrategyGetWithHttpInfo(int investmentStrategy) async {
+  /// * [int] investmentStrategyId (required):
+  Future<Response> strategiesInvestmentStrategyIdGetWithHttpInfo(int investmentStrategyId) async {
     // Verify required params are set.
-    if (investmentStrategy == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategy');
+    if (investmentStrategyId == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: investmentStrategyId');
     }
 
-    final path = r'/strategies/{investment_strategy}'
-      .replaceAll('{' + 'investment_strategy' + '}', investmentStrategy.toString());
+    final path = r'/strategies/{investment_strategy_id}'
+      .replaceAll('{' + 'investment_strategy_id' + '}', investmentStrategyId.toString());
 
     Object postBody;
 
@@ -85,6 +96,17 @@ class StrategiesApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
+      bool hasFields = false;
+      final mp = MultipartRequest(null, null);
+      if (hasFields) {
+        postBody = mp;
+      }
+    } else {
+    }
 
     return await apiClient.invokeAPI(
       path,
@@ -102,9 +124,9 @@ class StrategiesApi {
   ///
   /// Parameters:
   ///
-  /// * [int] investmentStrategy (required):
-  Future<InlineResponse2001Strategies> strategiesInvestmentStrategyGet(int investmentStrategy) async {
-    final response = await strategiesInvestmentStrategyGetWithHttpInfo(investmentStrategy);
+  /// * [int] investmentStrategyId (required):
+  Future<InlineResponse2002Strategies> strategiesInvestmentStrategyIdGet(int investmentStrategyId) async {
+    final response = await strategiesInvestmentStrategyIdGetWithHttpInfo(investmentStrategyId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -112,8 +134,8 @@ class StrategiesApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2001Strategies',) as InlineResponse2001Strategies;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponse2002Strategies',) as InlineResponse2002Strategies;
         }
-    return Future<InlineResponse2001Strategies>.value(null);
+    return Future<InlineResponse2002Strategies>.value(null);
   }
 }

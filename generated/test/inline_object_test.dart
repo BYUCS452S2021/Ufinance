@@ -25,26 +25,6 @@ void main() {
       // TODO
     });
 
-    // String firstName
-    test('to test the property `firstName`', () async {
-      // TODO
-    });
-
-    // String middleName
-    test('to test the property `middleName`', () async {
-      // TODO
-    });
-
-    // String lastName
-    test('to test the property `lastName`', () async {
-      // TODO
-    });
-
-    // int investmentStrategy
-    test('to test the property `investmentStrategy`', () async {
-      // TODO
-    });
-
 
   });
 

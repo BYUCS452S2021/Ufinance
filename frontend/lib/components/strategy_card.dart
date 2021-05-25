@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/constants.dart';
-
 import 'base_card.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class StrategyCard extends StatelessWidget {
-  StrategyCard({this.title, this.description, this.onPressed});
+  StrategyCard({
+    this.title,
+    this.description,
+    this.strategy,
+    this.selectedStrategy,
+    this.currIndex,
+    this.onPressed,
+  });
 
+  final int strategy;
+  final int selectedStrategy;
   final String description;
   final String title;
+  final int currIndex;
   final Function onPressed;
 
   @override
@@ -19,47 +25,49 @@ class StrategyCard extends StatelessWidget {
       padding: EdgeInsets.all(15.0),
       boxDecoration: BoxDecoration(
         // Change color
-                color: Colors.lightBlue,
-                borderRadius: BorderRadius.circular(15.0),
-              ),
+        color:
+            strategy == selectedStrategy ? Colors.blue[700] : Colors.lightBlue,
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       cardChild: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    this.title,
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 11.0,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Total amount",
-                        style: TextStyle(color: Colors.grey[300]),
-                      )
-                    ],
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "291.01",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .apply(color: Colors.white, fontWeightDelta: 2),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            strategy == selectedStrategy
+                ? this.title + "   (selected)"
+                : this.title,
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: 11.0,
+          ),
+          Text(
+            description,
+            style: TextStyle(color: Colors.grey[200]),
+          )
+        ],
+        // RichText(
+        //   text: TextSpan(
+        //     children: [
+        //       TextSpan(
+        //         text: "291.01",
+        //         style: Theme.of(context)
+        //             .textTheme
+        //             .headline4
+        //             .apply(color: Colors.white, fontWeightDelta: 2),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+      ),
+      onPressed: this.onPressed,
+      // onPressed: () {
+      //   print(currIndex);
+      // },
     );
     // return Container(
     //   decoration: BoxDecoration(

@@ -49,17 +49,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
+            Column(
               children: <Widget>[
                 Hero(
                   tag: 'logo',
                   child: Container(
-                    child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    child: Image.asset('../../assets/logo.png'),
+                    height: 200.0,
                   ),
                 ),
                 AnimatedTextKit(animatedTexts: [
-                  ColorizeAnimatedText('Uinvest',
+                  ColorizeAnimatedText('UFinance',
                       textStyle: ColorizeTextStyle, colors: ColorizeColors)
                 ]),
               ],

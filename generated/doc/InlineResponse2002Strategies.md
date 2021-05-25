@@ -1,4 +1,4 @@
-# openapi.model.InlineResponse2001Strategies
+# openapi.model.InlineResponse2002Strategies
 
 ## Load the model package
 ```dart
@@ -8,7 +8,8 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**investmentStrategy** | **int** |  | 
+**investmentStrategyId** | **int** |  | 
+**investmentStrategyName** | **String** |  | 
 **riskLowerBound** | **num** |  | 
 **riskUpperBound** | **num** |  | 
 **strategyDescription** | **String** |  | 

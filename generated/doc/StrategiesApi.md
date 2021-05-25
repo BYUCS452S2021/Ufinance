@@ -10,11 +10,11 @@ All URIs are relative to *http://localhost:8080*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**strategiesGet**](StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
-[**strategiesInvestmentStrategyGet**](StrategiesApi.md#strategiesinvestmentstrategyget) | **GET** /strategies/{investment_strategy} | Get strategy
+[**strategiesInvestmentStrategyIdGet**](StrategiesApi.md#strategiesinvestmentstrategyidget) | **GET** /strategies/{investment_strategy_id} | Get strategy
 
 
 # **strategiesGet**
-> InlineResponse2001 strategiesGet()
+> InlineResponse2002 strategiesGet()
 
 Get strategies
 
@@ -37,7 +37,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponse2001**](InlineResponse2001.md)
+[**InlineResponse2002**](InlineResponse2002.md)
 
 ### Authorization
 
@@ -50,8 +50,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **strategiesInvestmentStrategyGet**
-> InlineResponse2001Strategies strategiesInvestmentStrategyGet(investmentStrategy)
+# **strategiesInvestmentStrategyIdGet**
+> InlineResponse2002Strategies strategiesInvestmentStrategyIdGet(investmentStrategyId)
 
 Get strategy
 
@@ -60,13 +60,13 @@ Get strategy
 import 'package:openapi/api.dart';
 
 final api_instance = StrategiesApi();
-final investmentStrategy = 56; // int | 
+final investmentStrategyId = 56; // int | 
 
 try { 
-    final result = api_instance.strategiesInvestmentStrategyGet(investmentStrategy);
+    final result = api_instance.strategiesInvestmentStrategyIdGet(investmentStrategyId);
     print(result);
 } catch (e) {
-    print('Exception when calling StrategiesApi->strategiesInvestmentStrategyGet: $e\n');
+    print('Exception when calling StrategiesApi->strategiesInvestmentStrategyIdGet: $e\n');
 }
 ```
 
@@ -74,11 +74,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **investmentStrategy** | **int**|  | 
+ **investmentStrategyId** | **int**|  | 
 
 ### Return type
 
-[**InlineResponse2001Strategies**](InlineResponse2001Strategies.md)
+[**InlineResponse2002Strategies**](InlineResponse2002Strategies.md)
 
 ### Authorization
 

@@ -57,27 +57,29 @@ All URIs are relative to *http://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*HealthApi* | [**healthGet**](doc//HealthApi.md#healthget) | **GET** /health | Healthcheck
-*StrategiesApi* | [**strategiesGet**](doc//StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
-*StrategiesApi* | [**strategiesInvestmentStrategyGet**](doc//StrategiesApi.md#strategiesinvestmentstrategyget) | **GET** /strategies/{investment_strategy} | Get strategy
-*TimeApi* | [**timeGet**](doc//TimeApi.md#timeget) | **GET** /time | Get time
-*UsersApi* | [**usersPost**](doc//UsersApi.md#userspost) | **POST** /users | Register
-*UsersApi* | [**usersUserIdGet**](doc//UsersApi.md#usersuseridget) | **GET** /users/{user_id} | Get user
-*UsersApi* | [**usersUserIdHoldingsGet**](doc//UsersApi.md#usersuseridholdingsget) | **GET** /users/{user_id}/holdings | Get user
+*HealthApi* | [**healthGet**](doc\/HealthApi.md#healthget) | **GET** /health | Healthcheck
+*LoginApi* | [**loginPost**](doc\/LoginApi.md#loginpost) | **POST** /login | Login
+*StrategiesApi* | [**strategiesGet**](doc\/StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
+*StrategiesApi* | [**strategiesInvestmentStrategyIdGet**](doc\/StrategiesApi.md#strategiesinvestmentstrategyidget) | **GET** /strategies/{investment_strategy_id} | Get strategy
+*TimeApi* | [**timeGet**](doc\/TimeApi.md#timeget) | **GET** /time | Get time
+*UsersApi* | [**usersPost**](doc\/UsersApi.md#userspost) | **POST** /users | Register
+*UsersApi* | [**usersUserIdGet**](doc\/UsersApi.md#usersuseridget) | **GET** /users/{user_id} | Get user
+*UsersApi* | [**usersUserIdHoldingsGet**](doc\/UsersApi.md#usersuseridholdingsget) | **GET** /users/{user_id}/holdings | Get user
 
 
 ## Documentation For Models
 
- - [InlineObject](doc//InlineObject.md)
- - [InlineResponse200](doc//InlineResponse200.md)
- - [InlineResponse2001](doc//InlineResponse2001.md)
- - [InlineResponse2001Strategies](doc//InlineResponse2001Strategies.md)
- - [InlineResponse2002](doc//InlineResponse2002.md)
- - [InlineResponse2003](doc//InlineResponse2003.md)
- - [InlineResponse2004](doc//InlineResponse2004.md)
- - [InlineResponse2004Holdings](doc//InlineResponse2004Holdings.md)
- - [InlineResponse201](doc//InlineResponse201.md)
- - [InlineResponse400](doc//InlineResponse400.md)
+ - [InlineObject](doc\/InlineObject.md)
+ - [InlineObject1](doc\/InlineObject1.md)
+ - [InlineResponse200](doc\/InlineResponse200.md)
+ - [InlineResponse2001](doc\/InlineResponse2001.md)
+ - [InlineResponse2002](doc\/InlineResponse2002.md)
+ - [InlineResponse2002Strategies](doc\/InlineResponse2002Strategies.md)
+ - [InlineResponse2003](doc\/InlineResponse2003.md)
+ - [InlineResponse2004](doc\/InlineResponse2004.md)
+ - [InlineResponse2004Holdings](doc\/InlineResponse2004Holdings.md)
+ - [InlineResponse201](doc\/InlineResponse201.md)
+ - [InlineResponse400](doc\/InlineResponse400.md)
 
 
 ## Documentation For Authorization

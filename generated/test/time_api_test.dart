@@ -20,7 +20,7 @@ void main() {
     //
     // Get time from the database, to prove that we can connect to it
     //
-    //Future<InlineResponse2002> timeGet() async
+    //Future<InlineResponse2003> timeGet() async
     test('test timeGet', () async {
       // TODO
     });

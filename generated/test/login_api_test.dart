@@ -10,17 +10,18 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for InlineResponse2003
-void main() {
-  final instance = InlineResponse2003();
 
-  group('test InlineResponse2003', () {
-    // DateTime time
-    test('to test the property `time`', () async {
+/// tests for LoginApi
+void main() {
+  final instance = LoginApi();
+
+  group('tests for LoginApi', () {
+    // Login
+    //
+    //Future<InlineResponse2001> loginPost({ InlineObject inlineObject }) async
+    test('test loginPost', () async {
       // TODO
     });
 
-
   });
-
 }

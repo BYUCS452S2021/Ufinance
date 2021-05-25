@@ -10,7 +10,7 @@ const ColorizeColors = [
 ];
 
 const ColorizeTextStyle = TextStyle(
-  fontSize: 50.0,
+  fontSize: 60.0,
   fontFamily: 'Horizon',
 );
 
@@ -40,7 +40,6 @@ final ButtonStyle accountSummaryStyle = ElevatedButton.styleFrom(
   ),
 );
 
-
 const kTextColor = Color(0xFF151C2A);
 const kTextSecondaryColor = Color(0xFF7E8EAA);
 const kPrimaryColor = Color(0xFF5D92EB);
@@ -57,9 +56,7 @@ const kShadowColor5 = Color.fromRGBO(238, 226, 255, 0.70);
 
 const kSpacingUnit = 10.0;
 
-
-
-final kTitleTextStyle = TextStyle(  
+final kTitleTextStyle = TextStyle(
   fontSize: ScreenUtil().setSp(16),
   color: kTextColor,
 );
@@ -70,7 +67,6 @@ final kCaptionTextStyle = TextStyle(
   fontSize: ScreenUtil().setSp(10),
   color: kTextSecondaryColor,
 );
-
 
 final kCardTextStyle = TextStyle(
   fontFamily: 'TTNorms',

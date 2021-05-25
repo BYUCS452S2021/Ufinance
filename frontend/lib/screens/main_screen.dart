@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:frontend/data_models/user.dart';
 import 'package:frontend/screens/summary_screen.dart';
-import 'package:frontend/constants.dart';
 import 'package:frontend/screens/holdings_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -9,8 +9,7 @@ class MainScreen extends StatefulWidget {
   _MainScreen createState() => _MainScreen();
 }
 
-class _MainScreen extends State<MainScreen>
-    with TickerProviderStateMixin {
+class _MainScreen extends State<MainScreen> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
@@ -18,53 +17,48 @@ class _MainScreen extends State<MainScreen>
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
-  
-
- 
-
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as User;
+
     return Scaffold(
-     appBar: AppBar(
-       title: Text('Uinvest'),
-       bottom: TabBar(
-         controller: _tabController,
-         tabs: <Widget>[
-           Tab(
-             text: 'Summary',
-            //  icon: Icon(Icons.cloud_outlined),
-           ),
-           Tab(
-             text: 'Holdings'
-            // icon: Icon(Icons.beach_access_sharp),
-           ),
-           Tab(
-             text: 'Suggestions'
-            //  icon: Icon(Icons.brightness_5_sharp),
-           ),
-         ],
-       ),
-     ),
-     body: TabBarView(
-       controller: _tabController,
-       children: <Widget>[
-         // TODO: Change this to screen widgets 
-         Center(
-           child: SummaryScreen(),
-         ),
-         Center(
-           child: HoldingsScreen(), 
-         ),
-         Center(
+      appBar: AppBar(
+        title: Text('Uinvest'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: <Widget>[
+            Tab(
+              text: 'Summary',
+              //  icon: Icon(Icons.cloud_outlined),
+            ),
+            Tab(text: 'Holdings'
+                // icon: Icon(Icons.beach_access_sharp),
+                ),
+            Tab(text: 'Suggestions'
+                //  icon: Icon(Icons.brightness_5_sharp),
+                ),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          // TODO: Change this to screen widgets
+          Center(
+            child: SummaryScreen(currUser: args),
+          ),
+          Center(
+            child: HoldingsScreen(),
+          ),
+          Center(
             child: Text('It\'s sunny here'),
-         ),
-       ],
-     ),
-   );
+          ),
+        ],
+      ),
+    );
   }
 }
-
 
 /// Flutter code sample for TabBar
 

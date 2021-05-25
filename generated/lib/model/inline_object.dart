@@ -14,56 +14,29 @@ class InlineObject {
   InlineObject({
     @required this.emailAddress,
     @required this.password,
-    @required this.firstName,
-    this.middleName,
-    @required this.lastName,
-    @required this.investmentStrategy,
   });
 
   String emailAddress;
 
   String password;
 
-  String firstName;
-
-  String middleName;
-
-  String lastName;
-
-  // minimum: 0
-  int investmentStrategy;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineObject &&
      other.emailAddress == emailAddress &&
-     other.password == password &&
-     other.firstName == firstName &&
-     other.middleName == middleName &&
-     other.lastName == lastName &&
-     other.investmentStrategy == investmentStrategy;
+     other.password == password;
 
   @override
   int get hashCode =>
     (emailAddress == null ? 0 : emailAddress.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (middleName == null ? 0 : middleName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (investmentStrategy == null ? 0 : investmentStrategy.hashCode);
+    (password == null ? 0 : password.hashCode);
 
   @override
-  String toString() => 'InlineObject[emailAddress=$emailAddress, password=$password, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy]';
+  String toString() => 'InlineObject[emailAddress=$emailAddress, password=$password]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'email_address'] = emailAddress;
       json[r'password'] = password;
-      json[r'first_name'] = firstName;
-    if (middleName != null) {
-      json[r'middle_name'] = middleName;
-    }
-      json[r'last_name'] = lastName;
-      json[r'investment_strategy'] = investmentStrategy;
     return json;
   }
 
@@ -74,10 +47,6 @@ class InlineObject {
     : InlineObject(
         emailAddress: json[r'email_address'],
         password: json[r'password'],
-        firstName: json[r'first_name'],
-        middleName: json[r'middle_name'],
-        lastName: json[r'last_name'],
-        investmentStrategy: json[r'investment_strategy'],
     );
 
   static List<InlineObject> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

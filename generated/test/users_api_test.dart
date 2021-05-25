@@ -18,14 +18,14 @@ void main() {
   group('tests for UsersApi', () {
     // Register
     //
-    //Future<InlineResponse201> usersPost({ InlineObject inlineObject }) async
+    //Future<InlineResponse201> usersPost({ InlineObject1 inlineObject1 }) async
     test('test usersPost', () async {
       // TODO
     });
 
     // Get user
     //
-    //Future<InlineResponse2003> usersUserIdGet(int userId, String token) async
+    //Future<InlineResponse2001> usersUserIdGet(int userId, String token) async
     test('test usersUserIdGet', () async {
       // TODO
     });
