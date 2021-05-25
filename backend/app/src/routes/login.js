@@ -7,7 +7,7 @@ module.exports = async function (fastify, opts) {
     url: '/login',
     schema: {
       summary: 'Login',
-      tags: ['Login'],
+      tags: ['Users'],
       body: {
         type: 'object',
         required: [
@@ -16,7 +16,7 @@ module.exports = async function (fastify, opts) {
         ],
         properties: {
           email_address: { type: 'string', format: 'email' },
-          password: { type: 'string', minLength: 8 }
+          password: { type: 'string', minLength: 8, example: 'password' }
         }
       },
       response: {

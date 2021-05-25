@@ -67,9 +67,9 @@ INSERT INTO users VALUES
     (DEFAULT, 'john@example.com', 'some hash', 'John', NULL, 'Adams', 1),
     (DEFAULT, 'sam@example.com', 'some hash', 'Samantha', NULL, 'McGrady', 2),
     (DEFAULT, 'greg@example.com', 'some hash', 'Greg', NULL, 'Wild', 3),
-    (DEFAULT, 'user3@example.com', 'some hash', 'Steve', NULL, 'Bobby', 3),
-    (DEFAULT, 'user4@example.com', 'some hash', 'Stacy', NULL, 'Jeffries', 4),
-    (DEFAULT, 'user5@example.com', 'some hash', 'Gwen', NULL, 'Small', 1);
+    (DEFAULT, 'steve@example.com', 'some hash', 'Steve', NULL, 'Bobby', 3),
+    (DEFAULT, 'stacy@example.com', 'some hash', 'Stacy', NULL, 'Jeffries', 4),
+    (DEFAULT, 'gwen@example.com', 'some hash', 'Gwen', NULL, 'Small', 1);
 
 INSERT INTO holdings VALUES
     ((select user_id from users where email_address = 'sam@example.com'), 'GME', 1),
@@ -82,10 +82,10 @@ INSERT INTO holdings VALUES
     ((select user_id from users where email_address = 'sam@example.com'), 'SAP', 6),
     ((select user_id from users where email_address = 'greg@example.com'), 'GME', 5);
 
--- INSERT INTO tokens VALUES
-    -- ('token1', (select user_id from users where email_address = 'user1@example.com'), 10),
-    -- ('token2', (select user_id from users where email_address = 'user2@example.com'), 10),
-    -- ('token3', (select user_id from users where email_address = 'user3@example.com'), 10);
+INSERT INTO tokens VALUES
+    ('john', (select user_id from users where email_address = 'john@example.com'), 10),
+    ('sam', (select user_id from users where email_address = 'sam@example.com'), 10),
+    ('greg', (select user_id from users where email_address = 'greg@example.com'), 10);
 
 CREATE MATERIALIZED VIEW stock_statistics AS
     SELECT

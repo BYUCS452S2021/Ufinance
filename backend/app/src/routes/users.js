@@ -31,7 +31,101 @@ const userSchema = {
     investment_strategy: { type: 'integer', minimum: 0 }
   }
 }
+const stockStatisticSchema = {
+  type: 'object',
+  required: [
+    'stock_ticker',
+    'current_price',
+    'max_price',
+    'min_price',
+    'standard_deviation'
+  ],
+  properties: {
+    stock_ticker: { type: 'string', example: 'GME' },
+    current_price: { type: 'string', example: '$9000.01' },
+    max_price: { type: 'string', example: '$9000.01' },
+    min_price: { type: 'string', example: '$9000.01' },
+    standard_deviation: { type: 'number', example: 77.3923984208613 }
+  }
+}
+
 module.exports = async function (fastify, opts) {
+  fastify.route({
+    method: 'POST',
+    url: '/users',
+    schema: {
+      summary: 'Register',
+      tags: ['Users'],
+      body: {
+        type: 'object',
+        required: [
+          'email_address',
+          'password',
+          'first_name',
+          'last_name',
+          'investment_strategy'
+        ],
+        properties: {
+          email_address: { type: 'string', format: 'email' },
+          password: { type: 'string', minLength: 8, example: 'password' },
+          first_name: { type: 'string' },
+          middle_name: { type: 'string' },
+          last_name: { type: 'string' },
+          investment_strategy: { type: 'integer', minimum: 0 }
+        }
+      },
+      response: {
+        201: {
+          type: 'object',
+          required: [
+            'user_id',
+            'email_address',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'investment_strategy',
+            'token'
+          ],
+          properties: {
+            user_id: { type: 'integer', minimum: 0 },
+            email_address: { type: 'string', format: 'email' },
+            first_name: { type: 'string' },
+            middle_name: { type: 'string' },
+            last_name: { type: 'string' },
+            investment_strategy: { type: 'integer', minimum: 0 },
+            token: { type: 'string' }
+          }
+        }
+      }
+    },
+    handler: async (request, reply) => {
+      const {
+        email_address: emailAddress,
+        password,
+        first_name: firstName,
+        middle_name: middleName = null,
+        last_name: lastName,
+        investment_strategy: investmentStrategy
+      } = request.body
+      const passwordHash = password // TODO
+      // TODO: Handle database error on duplicate email address, return 400 in that case
+      const { rows: [user] } = await fastify.pg.query(
+        `insert into users
+                (user_id, email_address, password_hash, first_name, middle_name, last_name, investment_strategy)
+         values (DEFAULT, $1, $2, $3, $4, $5, $6) 
+         returning user_id, email_address, first_name, middle_name, last_name, investment_strategy`,
+        [emailAddress, passwordHash, firstName, middleName, lastName, investmentStrategy]
+      )
+      const token = uuid()
+      const expirationTimestamp = 123 // TODO
+      await fastify.pg.query(
+        'insert into tokens (token, user_id, expiration_timestamp) values ($1, $2, $3)',
+        [token, user.user_id, expirationTimestamp]
+      )
+      return { ...user, token }
+    }
+  })
+
   fastify.route({
     method: 'GET',
     url: '/users/:user_id',
@@ -76,7 +170,7 @@ module.exports = async function (fastify, opts) {
     method: 'GET',
     url: '/users/:user_id/holdings',
     schema: {
-      summary: 'Get user',
+      summary: 'Get user\'s holdings',
       tags: ['Users'],
       params: {
         type: 'object',
@@ -172,78 +266,51 @@ module.exports = async function (fastify, opts) {
   })
 
   fastify.route({
-    method: 'POST',
-    url: '/users',
+    method: 'GET',
+    url: '/users/:user_id/suggestions',
     schema: {
-      summary: 'Register',
+      summary: 'Get user\'s stock suggestions',
       tags: ['Users'],
-      body: {
+      params: {
         type: 'object',
-        required: [
-          'email_address',
-          'password',
-          'first_name',
-          'last_name',
-          'investment_strategy'
-        ],
+        required: ['user_id'],
         properties: {
-          email_address: { type: 'string', format: 'email' },
-          password: { type: 'string', minLength: 8 },
-          first_name: { type: 'string' },
-          middle_name: { type: 'string' },
-          last_name: { type: 'string' },
-          investment_strategy: { type: 'integer', minimum: 0 }
+          user_id: { type: 'integer', minimum: 0 }
         }
       },
+      headers: {
+        type: 'object',
+        properties: {
+          token: { type: 'string' }
+        },
+        required: ['token']
+      },
       response: {
-        201: {
+        200: {
+          description: 'Suggestions',
           type: 'object',
-          required: [
-            'user_id',
-            'email_address',
-            'first_name',
-            'middle_name',
-            'last_name',
-            'investment_strategy',
-            'token'
-          ],
+          required: ['suggestions'],
           properties: {
-            user_id: { type: 'integer', minimum: 0 },
-            email_address: { type: 'string', format: 'email' },
-            first_name: { type: 'string' },
-            middle_name: { type: 'string' },
-            last_name: { type: 'string' },
-            investment_strategy: { type: 'integer', minimum: 0 },
-            token: { type: 'string' }
+            suggestions: {
+              type: 'array',
+              items: stockStatisticSchema
+            }
           }
         }
       }
     },
+    preHandler: fastify.auth([fastify.authenticate]),
     handler: async (request, reply) => {
-      const {
-        email_address: emailAddress,
-        password,
-        first_name: firstName,
-        middle_name: middleName = null,
-        last_name: lastName,
-        investment_strategy: investmentStrategy
-      } = request.body
-      const passwordHash = password // TODO
-      // TODO: Handle database error on duplicate email address, return 400 in that case
-      const { rows: [user] } = await fastify.pg.query(
-        `insert into users
-                (user_id, email_address, password_hash, first_name, middle_name, last_name, investment_strategy)
-         values (DEFAULT, $1, $2, $3, $4, $5, $6) 
-         returning user_id, email_address, first_name, middle_name, last_name, investment_strategy`,
-        [emailAddress, passwordHash, firstName, middleName, lastName, investmentStrategy]
-      )
-      const token = uuid()
-      const expirationTimestamp = 123 // TODO
-      await fastify.pg.query(
-        'insert into tokens (token, user_id, expiration_timestamp) values ($1, $2, $3)',
-        [token, user.user_id, expirationTimestamp]
-      )
-      return { ...user, token }
+      if (request.user_id !== request.params.user_id) {
+        reply.code(403)
+        return {
+          statusCode: 403,
+          error: 'Forbidden',
+          message: 'Not authorized'
+        }
+      }
+      const { rows: suggestions } = await fastify.pg.query('select stock_ticker, current_price, max_price, min_price, standard_deviation from stock_statistics, users, strategies where user_id = $1 and users.investment_strategy = strategies.investment_strategy_id and standard_deviation between risk_lower_bound and risk_upper_bound', [request.user_id])
+      return { suggestions }
     }
   })
 }
