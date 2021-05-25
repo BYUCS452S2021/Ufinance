@@ -14,6 +14,7 @@ module.exports = fp(async function (fastify, opts) {
     const { rows: [{ user_id: userId } = {}] } = await fastify.pg.query('select user_id from tokens where token = $1', [token])
     if (!userId) throw Error('Invalid token header')
 
+    request.log.debug(`User ID associated with token: ${userId}`)
     request.user_id = userId
   })
 })
