@@ -11,9 +11,9 @@ module.exports = fp(async function (fastify, opts) {
       throw Error('Missing token header')
     }
 
-    const { rows: [{ user_id } = {}] } = await fastify.pg.query('select user_id from tokens where token = $1', [token])
-    if (!user_id) throw Error('Invalid token header')
+    const { rows: [{ user_id: userId } = {}] } = await fastify.pg.query('select user_id from tokens where token = $1', [token])
+    if (!userId) throw Error('Invalid token header')
 
-    request.user_id = user_id
+    request.user_id = userId
   })
 })
