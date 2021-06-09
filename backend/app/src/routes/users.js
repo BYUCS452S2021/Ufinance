@@ -1,5 +1,11 @@
 'use strict'
 const { v4: uuid } = require('uuid')
+const { DynamoDB, PutItemCommand } = require('@aws-sdk/client-dynamodb')
+
+const dynamodb = new DynamoDB({
+  region: process.env.AWS_DEFAULT_REGION,
+  ...process.env.DYNAMODB_ENDPOINT && { endpoint: process.env.DYNAMODB_ENDPOINT }
+})
 
 const holdingSchema = {
   type: 'object',
@@ -117,11 +123,16 @@ module.exports = async function (fastify, opts) {
         [emailAddress, passwordHash, firstName, middleName, lastName, investmentStrategy]
       )
       const token = uuid()
-      const expirationTimestamp = 123 // TODO
-      await fastify.pg.query(
-        'insert into tokens (token, user_id, expiration_timestamp) values ($1, $2, $3)',
-        [token, user.user_id, expirationTimestamp]
-      )
+      const currentEpochInSeconds = Math.trunc(new Date().getTime() / 1000);
+      const expirationTimestamp = currentEpochInSeconds + 3600; // One hour from now
+      await dynamodb.send(new PutItemCommand({
+        TableName: 'tokens',
+        Item: {
+          token: { S: token },
+          user_id: { S: user.user_id },
+          expiration_timestamp: { N: expirationTimestamp }
+        }
+      }))
       return { ...user, token }
     }
   })
