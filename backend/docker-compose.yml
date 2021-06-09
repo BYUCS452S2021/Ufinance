@@ -6,6 +6,17 @@ services:
     ports:
       - 8000:8000
 
+  setup-dynamodb:
+    image: hashicorp/terraform:1.0.0
+    depends_on:
+      - dynamodb
+    restart: 'no'
+    volumes:
+      - ./local-dynamodb:/infra
+    working_dir: /infra
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: [ '/bin/terraform init && /bin/terraform apply -auto-approve' ]
+
   db:
     build: ./local-postgres
     ports:
@@ -23,6 +34,7 @@ services:
     depends_on:
       - db
       - dynamodb
+      - setup-dynamodb
     ports:
       - 8080:8080
     environment:
