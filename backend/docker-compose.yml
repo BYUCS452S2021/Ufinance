@@ -31,3 +31,8 @@ services:
       PGUSER: 'postgres'
       PGPASSWORD: 'password'
       PGPORT: 5432
+
+      DYNAMODB_ENDPOINT: 'http://dynamodb:8000' # Only needed locally
+      AWS_DEFAULT_REGION: 'us-west-2'
+      AWS_ACCESS_KEY_ID: 'mock_access_key' # Will use IAM instead of these when deployed
+      AWS_SECRET_ACCESS_KEY: 'mock_access_secret' # Will use IAM instead of these when deployed
