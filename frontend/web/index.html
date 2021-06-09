@@ -40,6 +40,29 @@
       });
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+      apiKey: "AIzaSyBxA-XafaMcFiw1yO2TjLDBaE-s-C9bpqI",
+      authDomain: "ufinance-79f45.firebaseapp.com",
+      projectId: "ufinance-79f45",
+      storageBucket: "ufinance-79f45.appspot.com",
+      messagingSenderId: "620778065501",
+      appId: "1:620778065501:web:9fbdaf25c21cc42cd807b4",
+      measurementId: "G-65TYZXPSN9"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
