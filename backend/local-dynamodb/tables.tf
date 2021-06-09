@@ -94,3 +94,15 @@ resource "aws_dynamodb_table" "stock_prices_table" {
     type = "S"
   }
 }
+
+resource "aws_dynamodb_table" "stock_statistics_table" {
+  name           = "stock_statistics"
+  billing_mode   = "PROVISIONED" # We'd probably use ON_DEMAND if it were free-tier eligible
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "stock_ticker"
+  attribute {
+    name = "stock_ticker"
+    type = "S"
+  }
+}
