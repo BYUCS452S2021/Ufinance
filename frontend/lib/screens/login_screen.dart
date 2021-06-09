@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
-  String email;
-  String password;
+  String email = 'sam@example.com';
+  String password = 'some hash';
 
   @override
   Widget build(BuildContext context) {

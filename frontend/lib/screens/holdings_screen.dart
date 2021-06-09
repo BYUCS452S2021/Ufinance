@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/data_models/holding.dart';
 import 'package:frontend/data_models/user.dart';
 import 'package:openapi/api.dart';
@@ -20,6 +21,7 @@ class _HoldingScreen extends State<HoldingsScreen> {
   final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
   List<String> items = [];
   User _currUser;
+  Future<List<Holding>> _futureHoldings;
 
   _HoldingScreen(User currUser) {
     this._currUser = currUser;
@@ -29,6 +31,7 @@ class _HoldingScreen extends State<HoldingsScreen> {
   void initState() {
     items.addAll(duplicateItems);
     super.initState();
+    _futureHoldings = fetchHoldings();
   }
 
   void filterSearchResults(String query) {
@@ -77,9 +80,21 @@ class _HoldingScreen extends State<HoldingsScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
             ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Row(
+                  children: [
+                    Text('Name'),
+                    Spacer(),
+                    Text('Price per share'),
+                    Spacer(),
+                    Text('My shares'),
+                  ],
+                )),
+            Divider(thickness: 2, color: Colors.black),
             Expanded(
                 child: FutureBuilder(
-                    future: fetchHoldings(),
+                    future: _futureHoldings,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
@@ -90,25 +105,70 @@ class _HoldingScreen extends State<HoldingsScreen> {
                               children: [
                                 Container(
                                     padding:
-                                        EdgeInsets.fromLTRB(40.0, 0, 40.0, 0),
+                                        EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
                                     height: 80.0,
                                     child: Center(
-                                        child: ListTile(
-                                            leading: Text(
-                                              '${snapshot.data[index].ticker}          ',
-                                              style: TextStyle(
-                                                  fontSize: 30.0,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            title: Text(
-                                                '${snapshot.data[index].price} per share',
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                          Text(
+                                            '${snapshot.data[index].ticker}          ',
+                                            style: TextStyle(
+                                                fontSize: 30.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Container(
+                                            width: 160,
+                                            child: Text(
+                                                '${snapshot.data[index].price}',
                                                 style:
                                                     TextStyle(fontSize: 20.0)),
-                                            trailing: Text(
-                                              "Shares owned: ${snapshot.data[index].numShares}",
+                                          ),
+                                          Container(
+                                              child: Row(children: [
+                                            Text(
+                                              "${snapshot.data[index].numShares}",
                                               style: TextStyle(fontSize: 20.0),
-                                            )))),
-                                Divider(color: Colors.black)
+                                            ),
+                                            SizedBox(width: 15),
+                                            Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          _futureHoldings =
+                                                              updateHolding(
+                                                                  'buy');
+                                                        });
+                                                      },
+                                                      child: const Text('Buy',
+                                                          style: TextStyle(
+                                                              fontSize: 12.0))),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          // _futureHoldings =
+                                                          //     updateHolding(
+                                                          //         'sell');
+                                                          _futureHoldings =
+                                                              fetchHoldings();
+                                                        });
+                                                      },
+                                                      child: const Text('Sell',
+                                                          style: TextStyle(
+                                                              fontSize: 12.0)))
+                                                ])
+                                          ]))
+                                        ]))),
+                                Divider(color: Colors.grey)
                               ],
                             );
                           },
@@ -123,10 +183,16 @@ class _HoldingScreen extends State<HoldingsScreen> {
     );
   }
 
+  Future<List<Holding>> updateHolding(String transaction) async {
+    List<Holding> myHoldings = [];
+    if (transaction == 'buy') {
+    } else {}
+    return myHoldings;
+  }
+
   Future<List<Holding>> fetchHoldings() async {
     List<Holding> myHoldings = [];
     final apiInstance = UsersApi();
-
     try {
       final result =
           apiInstance.usersUserIdHoldingsGet(_currUser.userId, _currUser.token);

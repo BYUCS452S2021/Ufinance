@@ -15,9 +15,11 @@ class SummaryScreen extends StatefulWidget {
 
 class _SummaryScreen extends State<SummaryScreen> {
   User _currUser;
+  Future<List<InvestmentStrategy>> _futureInvestmentStrategy;
 
   _SummaryScreen(User currUser) {
     this._currUser = currUser;
+    _futureInvestmentStrategy = fetchStrategies();
   }
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class _SummaryScreen extends State<SummaryScreen> {
               height: 50.0,
             ),
             FutureBuilder(
-                future: fetchStrategies(),
+                future: _futureInvestmentStrategy,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   // print("before if");
                   if (snapshot.hasData) {
@@ -109,7 +111,11 @@ class _SummaryScreen extends State<SummaryScreen> {
                           strategy: snapshot.data[index].strategyId,
                           selectedStrategy: _currUser.investmentStrategy,
                           onPressed: () {
-                            print(index);
+                            setState(() {
+                              _futureInvestmentStrategy =
+                                  updateInvestmentStrategy(
+                                      snapshot.data[index].strategyId);
+                            });
                           },
                         );
                       },
@@ -148,6 +154,14 @@ class _SummaryScreen extends State<SummaryScreen> {
         ),
       ),
     );
+  }
+
+  Future<List<InvestmentStrategy>> updateInvestmentStrategy(
+      int selectedStrategyId) async {
+    List<InvestmentStrategy> myHoldings = [];
+    // if (transaction == 'buy') {
+    // } else {}
+    return myHoldings;
   }
 
   Future<List<InvestmentStrategy>> fetchStrategies() async {
