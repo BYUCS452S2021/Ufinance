@@ -1,5 +1,11 @@
 version: '3.7'
 services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    restart: always
+    ports:
+      - 8000:8000
+
   db:
     build: ./local-postgres
     ports:
@@ -16,6 +22,7 @@ services:
     build: ./app
     depends_on:
       - db
+      - dynamodb
     ports:
       - 8080:8080
     environment:
