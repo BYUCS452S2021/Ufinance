@@ -121,7 +121,7 @@ class _HoldingScreen extends State<HoldingsScreen> {
                                           Container(
                                             width: 160,
                                             child: Text(
-                                                '${snapshot.data[index].price}',
+                                                '\$${snapshot.data[index].price}',
                                                 style:
                                                     TextStyle(fontSize: 20.0)),
                                           ),
@@ -143,7 +143,15 @@ class _HoldingScreen extends State<HoldingsScreen> {
                                                         setState(() {
                                                           _futureHoldings =
                                                               updateHolding(
-                                                                  'buy');
+                                                                  'buy',
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .ticker,
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .numShares);
                                                         });
                                                       },
                                                       child: const Text('Buy',
@@ -155,11 +163,17 @@ class _HoldingScreen extends State<HoldingsScreen> {
                                                   ElevatedButton(
                                                       onPressed: () {
                                                         setState(() {
-                                                          // _futureHoldings =
-                                                          //     updateHolding(
-                                                          //         'sell');
                                                           _futureHoldings =
-                                                              fetchHoldings();
+                                                              updateHolding(
+                                                                  'sell',
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .ticker,
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .numShares);
                                                         });
                                                       },
                                                       child: const Text('Sell',
@@ -183,30 +197,21 @@ class _HoldingScreen extends State<HoldingsScreen> {
     );
   }
 
-  Future<List<Holding>> updateHolding(String transaction) async {
-    List<Holding> myHoldings = [];
+  Future<List<Holding>> updateHolding(
+      String transaction, String stockTicker, int oldValue) async {
+    int newValue;
     if (transaction == 'buy') {
-    } else {}
-    return myHoldings;
+      newValue = oldValue + 1;
+    } else {
+      newValue = oldValue - 1;
+    }
+    await ServerProxy.updateUserStock(stockTicker, newValue);
+    return await fetchHoldings();
   }
 
   Future<List<Holding>> fetchHoldings() async {
-    List<Holding> myHoldings = [];
-    // final apiInstance = UsersApi();
     try {
-      String result = ServerProxy.getUserHoldings();
-
-      //   final result =
-      //       apiInstance.usersUserIdHoldingsGet(_currUser.userId, _currUser.token);
-      //   var response = await result;
-
-      //   for (int i = 0; i < response.holdings.length; ++i) {
-      //     var priceData = await fetchStockPrice(response.holdings[i].stockTicker);
-      //     myHoldings.add(Holding(
-      //         ticker: response.holdings[i].stockTicker,
-      //         numShares: response.holdings[i].numberOfShares,
-      //         price: priceData));
-      //   }
+      List<Holding> myHoldings = await ServerProxy.getUserHoldings();
       return myHoldings;
     } catch (e) {
       print(

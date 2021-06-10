@@ -3,7 +3,7 @@ class UserInfo {
   final String firstName;
   final String middleName;
   final String lastName;
-  final String investmentStrategy;
+  String investmentStrategy;
 
   UserInfo(
     this.emailAddress,

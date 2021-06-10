@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide UserInfo;
+import 'package:frontend/data_models/holding.dart';
 import 'package:frontend/data_models/stock.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:intl/intl.dart';
@@ -67,13 +68,34 @@ class ServerProxy {
     });
   }
 
-  static Future<List<Map<String, dynamic>>> getUserHoldings() async {
-    var stream = await ActiveUser.database
+  static Future<List<Holding>> getUserHoldings() async {
+    List<Holding> holdings = [];
+    QuerySnapshot<Map<String, dynamic>> results = await ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
         .collection('holdings')
         .get();
-    return stream.docs.map((doc) => doc.data()).toList();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> resultsData =
+        results.docs;
+    resultsData.forEach((element) {
+      Map<String, dynamic> currData = element.data();
+      holdings.add(Holding(
+          ticker: currData["Ticker"],
+          numShares: int.parse(currData["quantity"]),
+          price: '${currData["Bought Price"]}'));
+    });
+    return holdings;
+  }
+
+  static void updateUserStock(String stockTicker, int newValue) {
+    ActiveUser.database
+        .collection('users')
+        .doc(ActiveUser.loggedInUser.uid)
+        .collection('holdings')
+        .doc(stockTicker)
+        .set({
+      'quantity': newValue.toString(),
+    }, SetOptions(merge: true));
   }
 
   static Future<List<InvestmentStrategy>> getStrategies() async {
@@ -95,9 +117,27 @@ class ServerProxy {
     return strategies;
   }
 
+  static void updateUserStrategy(String strategy) {
+    ActiveUser.database
+        .collection('users')
+        .doc(ActiveUser.loggedInUser.uid)
+        .set({
+      'Strategy': strategy,
+    }, SetOptions(merge: true));
+  }
+
   //   static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
   //   return ActiveUser.database.collection('strategies').get().snapshots();
   // }
+
+  static Future<double> getTotalValue() async {
+    List<Holding> myHoldings = await ServerProxy.getUserHoldings();
+    double totalValue = 0;
+    myHoldings.forEach((currStock) {
+      totalValue += currStock.numShares * double.parse(currStock.price);
+    });
+    return totalValue;
+  }
 
   static Stream<QuerySnapshot> get(String supplierDocumentID) {
     return ActiveUser.database.collection('strategies').snapshots();
