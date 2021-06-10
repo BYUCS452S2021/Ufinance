@@ -80,8 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     showSpinner = true;
                   });
                   //DELETE LATER
-                  this.email = "sam@example.com";
-                  this.password = "some hash";
+                  // this.email = "sam@example.com";
+                  // this.password = "some hash";
                   var user = await ServerProxy.loginUser(email, password);
                   setState(() {
                     showSpinner = false;
