@@ -6,9 +6,10 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:frontend/screens/registration_screen.dart';
 // import 'package:openapi/api.dart';
 import 'package:frontend/data_models/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend/data/server_proxy.dart';
+import 'package:frontend/data_models/user_info.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
