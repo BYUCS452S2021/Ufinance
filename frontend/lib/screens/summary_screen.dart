@@ -72,8 +72,8 @@ class _SummaryScreen extends State<SummaryScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: snapshot.data.toString() != ""
-                                      ? snapshot.data.toString()
+                                  text: snapshot.data != ""
+                                      ? snapshot.data
                                       : "\$0",
                                   style: Theme.of(context)
                                       .textTheme
@@ -111,8 +111,13 @@ class _SummaryScreen extends State<SummaryScreen> {
                           description: snapshot.data.docs[index]['Description'],
                           strategyId: snapshot.data.docs[index]['Id'],
                           selectedStrategy: _currUserInfo.investmentStrategy,
-                          onPressed: () {
-                            print(index);
+                          onPressed: () async {
+                            setState(() {
+                              this._currUserInfo.investmentStrategy =
+                                  snapshot.data.docs[index]['Name'];
+                            });
+                            await ServerProxy.updateUserStrategy(
+                                snapshot.data.docs[index]['Name']);
                           },
                         );
                       },
@@ -165,7 +170,9 @@ class _SummaryScreen extends State<SummaryScreen> {
 
   Future<String> fetchTotalValue() async {
     // final apiInstance = UsersApi();
-
+    double totalValueNum = await ServerProxy.getTotalValue();
+    String totalValue = totalValueNum.toString();
+    return '\$$totalValue';
     // try {
     //   final result = apiInstance.usersUserIdAllholdingsGet(
     //       _currUserInfo.userId, _currUserInfo.token);
