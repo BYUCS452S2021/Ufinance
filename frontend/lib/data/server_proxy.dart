@@ -67,7 +67,7 @@ class ServerProxy {
     });
   }
 
-  static getUserHoldings() async {
+  static Future<List<Map<String, dynamic>>> getUserHoldings() async {
     var stream = await ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
