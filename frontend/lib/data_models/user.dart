@@ -1,29 +1,11 @@
-// class User {
-//   final int userId;
-//   final String emailAddress;
-//   final String firstName;
-//   final String middleName;
-//   final String lastName;
-//   final int investmentStrategy;
-//   String token;
-
-//   User(
-//     this.userId,
-//     this.emailAddress,
-//     this.firstName,
-//     this.middleName,
-//     this.lastName,
-//     this.investmentStrategy,
-//     this.token,
-//   );
-// }
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide UserInfo;
+import 'package:frontend/data_models/user_info.dart';
 
 class ActiveUser {
   static final ActiveUser _singleton = ActiveUser._internal();
   static User _loggedInUser;
+  static UserInfo _loggedInUserInfo;
   static FirebaseFirestore _database = FirebaseFirestore.instance;
 
   factory ActiveUser() {
@@ -34,8 +16,16 @@ class ActiveUser {
     _loggedInUser = loggedInUser;
   }
 
+  void setLoggedInUserInfo(UserInfo loggedInUserInfo) {
+    _loggedInUserInfo = loggedInUserInfo;
+  }
+
   User getUser() {
     return _loggedInUser;
+  }
+
+  UserInfo getUserInfo() {
+    return _loggedInUserInfo;
   }
 
   void logOutUser() {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:frontend/data_models/user_info.dart';
 
 // import '../constants.dart';
 import 'package:frontend/data_models/user.dart';
@@ -19,10 +20,10 @@ class ServerProxy {
     );
     return userCredential.user;
   }
-  
 
   static Future<User> registerUser(String email, String password) async {
-    UserCredential userCredential = await database.createUserWithEmailAndPassword(
+    UserCredential userCredential =
+        await database.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -30,7 +31,7 @@ class ServerProxy {
   }
 
   static void writeUserInfo(
-    String firstName, String lastName, String middleName, String strategy) {
+      String firstName, String lastName, String middleName, String strategy) {
     ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
@@ -42,8 +43,7 @@ class ServerProxy {
     });
   }
 
-  static Stream<QuerySnapshot> getUserHoldings(
-      String supplierDocumentID) {
+  static Stream<QuerySnapshot> getUserHoldings(String supplierDocumentID) {
     return ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
@@ -51,24 +51,15 @@ class ServerProxy {
         .snapshots();
   }
 
-  static Stream<QuerySnapshot> getStrategies(
-      String supplierDocumentID) {
-    return ActiveUser.database
-        .collection('strategies')
-        .snapshots();
+  static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
+    return ActiveUser.database.collection('strategies').snapshots();
   }
 
-  static Stream<QuerySnapshot> get(
-      String supplierDocumentID) {
-    return ActiveUser.database
-        .collection('strategies')
-        .snapshots();
+  static Stream<QuerySnapshot> get(String supplierDocumentID) {
+    return ActiveUser.database.collection('strategies').snapshots();
   }
-
 
   static Future<User> getActiveUser() async {
     return database.currentUser;
   }
-
-
 }

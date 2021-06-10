@@ -12,8 +12,8 @@ class StrategyCard extends StatelessWidget {
     this.onPressed,
   });
 
-  final int strategy;
-  final int selectedStrategy;
+  final String strategy;
+  final String selectedStrategy;
   final String description;
   final String title;
   final int currIndex;

@@ -46,11 +46,11 @@ class _MainScreen extends State<MainScreen> with TickerProviderStateMixin {
         children: <Widget>[
           // TODO: Change this to screen widgets
           Center(
-            // child: SummaryScreen(currUser: args),
+            child: SummaryScreen(),
           ),
           Center(
-            // child: HoldingsScreen(currUser: args),
-          ),
+              // child: HoldingsScreen(),
+              ),
           Center(
             child: Text('It\'s sunny here'),
           ),
