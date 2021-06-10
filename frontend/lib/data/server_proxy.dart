@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/data_models/stock.dart';
 import 'package:intl/intl.dart';
 import 'package:frontend/data_models/user_info.dart';
 
@@ -43,12 +44,13 @@ class ServerProxy {
     });
   }
 
-  static Stream<QuerySnapshot> getUserHoldings(String supplierDocumentID) {
-    return ActiveUser.database
+  static Future<List<Stock>> getUserHoldings() async {
+    Stream<QuerySnapshot> stream = await ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
-        .collection('holdings')
-        .snapshots();
+        .collection('holdings').getDocuments();
+
+    return stream.map()
   }
 
   static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
@@ -61,5 +63,10 @@ class ServerProxy {
 
   static Future<User> getActiveUser() async {
     return database.currentUser;
+  }
+
+  static getUserData() async {
+    var holdings = getUserHoldings().docs;
+    print(holdings)
   }
 }
