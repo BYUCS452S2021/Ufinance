@@ -71,8 +71,25 @@ class ServerProxy {
     return database.currentUser;
   }
 
-  static getUserData() async {
-    var holdings = getUserHoldings();
+  static getStockPrice(date, stockTicker) async { 
+    var holdingWorth; 
+    var document = await ActiveUser.database.collection('stock_prices').doc(stockTicker)
+    .collection('Prices').doc(date).get();
+
+    return document;
+  }
+
+  static getPortfolioValue() async {
+    var dayString = '06-09-2021'; 
+    var holdings = await getUserHoldings();
     print(holdings);
+    print(holdings);
+    var total = 0.0; 
+    for(var i = 0; i < holdings.length; i++){
+      print(holdings[i]['Ticker']);
+      var document = await getStockPrice(dayString, holdings[i]['Ticker']); 
+      total += double.parse(document.get('Price')) * int.parse(holdings[i]['quantity']);
+    }
+    return total.toStringAsFixed(2); 
   }
 }

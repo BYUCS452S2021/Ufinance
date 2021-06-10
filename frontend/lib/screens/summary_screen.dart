@@ -85,6 +85,7 @@ class _SummaryScreen extends State<SummaryScreen> {
                             ),
                           );
                         } else {
+                          ServerProxy.getUserData();
                           return Text('Loading...');
                         }
                       }
