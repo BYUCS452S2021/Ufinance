@@ -31,6 +31,12 @@ class ServerProxy {
     return userCredential.user;
   }
 
+  static getUserInfo() async {
+    return await ActiveUser.database
+        .collection('users')
+        .doc(ActiveUser.loggedInUser.uid).get(); 
+  }
+
   static void writeUserInfo(
       String firstName, String lastName, String middleName, String strategy) {
     ActiveUser.database
@@ -44,13 +50,13 @@ class ServerProxy {
     });
   }
 
-  static Future<List<Stock>> getUserHoldings() async {
-    Stream<QuerySnapshot> stream = await ActiveUser.database
+  static getUserHoldings() async {
+    var stream = await ActiveUser.database
         .collection('users')
         .doc(ActiveUser.loggedInUser.uid)
-        .collection('holdings').getDocuments();
-
-    return stream.map()
+        .collection('holdings').get();  
+    return stream.docs.map((doc) => doc.data()).toList();
+    
   }
 
   static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
@@ -66,7 +72,7 @@ class ServerProxy {
   }
 
   static getUserData() async {
-    var holdings = getUserHoldings().docs;
-    print(holdings)
+    var holdings = getUserHoldings();
+    print(holdings);
   }
 }

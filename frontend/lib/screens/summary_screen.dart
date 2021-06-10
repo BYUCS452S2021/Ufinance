@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
 import 'package:frontend/constants.dart';
@@ -5,6 +6,7 @@ import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
 import 'package:frontend/data_models/user_info.dart';
 import 'package:openapi/api.dart';
+import 'package:frontend/data/server_proxy.dart';
 
 class SummaryScreen extends StatefulWidget {
   static const String id = 'summary_screen';
@@ -85,27 +87,28 @@ class _SummaryScreen extends State<SummaryScreen> {
                         } else {
                           return Text('Loading...');
                         }
-                      })
+                      }
+                    )
                 ],
               ),
             ),
             SizedBox(
               height: 50.0,
             ),
-            FutureBuilder(
-                future: fetchStrategies(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
+            FutureBuilder<QuerySnapshot>(
+                future: ActiveUser.database.collection('strategies').get(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   // print("before if");
                   if (snapshot.hasData) {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data.length,
+                      itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) {
                         return StrategyCard(
-                          title: snapshot.data[index].strategyName,
-                          description: snapshot.data[index].description,
-                          strategy: snapshot.data[index].strategyId,
+                          title: snapshot.data.docs[index]['Name'],
+                          description: snapshot.data.docs[index]['Description'],
+                          strategy: snapshot.data.docs[index]['Id'],
                           selectedStrategy: _currUserInfo.investmentStrategy,
                           onPressed: () {
                             print(index);

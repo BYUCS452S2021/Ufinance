@@ -6,9 +6,11 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:frontend/screens/registration_screen.dart';
 // import 'package:openapi/api.dart';
 import 'package:frontend/data_models/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:frontend/data/server_proxy.dart';
+import 'package:frontend/data_models/user_info.dart';
+
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -85,6 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (user != null) {
                     print('i am here');
                     ActiveUser().setLoggedInUser(user);
+                    var userData = await ServerProxy.getUserInfo(); 
+                    ActiveUser().setLoggedInUserInfo(UserInfo(user.email, userData['First Name'], userData['Middle Name'], userData['Last Name'], userData['Strategy']));
                     Navigator.popAndPushNamed(context, MainScreen.id);
                   }
                   // print('User will be logged in');
