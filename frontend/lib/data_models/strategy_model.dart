@@ -1,12 +1,12 @@
 class InvestmentStrategy {
-  final int strategyId;
+  final String id;
   final String strategyName;
-  final double lowerRiskBound;
-  final double upperRiskBound;
+  final String lowerRiskBound;
+  final String upperRiskBound;
   final String description;
 
   InvestmentStrategy({
-    this.strategyId,
+    this.id,
     this.strategyName,
     this.lowerRiskBound,
     this.upperRiskBound,

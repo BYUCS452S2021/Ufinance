@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/data/server_proxy.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
 import 'package:frontend/data_models/user_info.dart';
@@ -105,7 +106,7 @@ class _SummaryScreen extends State<SummaryScreen> {
                         return StrategyCard(
                           title: snapshot.data[index].strategyName,
                           description: snapshot.data[index].description,
-                          strategy: snapshot.data[index].strategyId,
+                          strategyId: snapshot.data[index].id,
                           selectedStrategy: _currUserInfo.investmentStrategy,
                           onPressed: () {
                             print(index);
@@ -150,21 +151,8 @@ class _SummaryScreen extends State<SummaryScreen> {
   }
 
   Future<List<InvestmentStrategy>> fetchStrategies() async {
-    List<InvestmentStrategy> strategyData = [];
-    final apiInstance = StrategiesApi();
-
     try {
-      final result = apiInstance.strategiesGet();
-      var response = await result;
-
-      response.strategies.forEach((current) => {
-            strategyData.add(InvestmentStrategy(
-                strategyId: current.investmentStrategyId,
-                strategyName: current.investmentStrategyName,
-                lowerRiskBound: current.riskLowerBound,
-                upperRiskBound: current.riskUpperBound,
-                description: current.strategyDescription))
-          });
+      List<InvestmentStrategy> strategyData = await ServerProxy.getStrategies();
       return strategyData;
     } catch (e) {
       print('Exception when calling StrategiesApi->strategies.get(): $e\n');

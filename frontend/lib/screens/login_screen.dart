@@ -78,6 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     showSpinner = true;
                   });
+                  //DELETE LATER
+                  this.email = "sam@example.com";
+                  this.password = "some hash";
                   var user = await ServerProxy.loginUser(email, password);
                   setState(() {
                     showSpinner = false;
@@ -85,6 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (user != null) {
                     print('i am here');
                     ActiveUser().setLoggedInUser(user);
+                    ActiveUser()
+                        .setLoggedInUserInfo(await ServerProxy.fetchUserInfo());
                     Navigator.popAndPushNamed(context, MainScreen.id);
                   }
                   // print('User will be logged in');

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide UserInfo;
 import 'package:frontend/data_models/stock.dart';
+import 'package:frontend/data_models/strategy_model.dart';
 import 'package:intl/intl.dart';
 import 'package:frontend/data_models/user_info.dart';
 
@@ -20,6 +21,21 @@ class ServerProxy {
       password: password,
     );
     return userCredential.user;
+  }
+
+  static Future<UserInfo> fetchUserInfo() async {
+    DocumentSnapshot<Map<String, dynamic>> results = await ActiveUser.database
+        .collection('users')
+        .doc(ActiveUser.loggedInUser.uid)
+        .get();
+    Map<String, dynamic> data = results.data();
+    UserInfo info = new UserInfo(
+        ActiveUser.loggedInUser.email,
+        data["First Name"],
+        data["Middle Name"],
+        data["Last Name"],
+        data["Strategy"]);
+    return info;
   }
 
   static Future<User> registerUser(String email, String password) async {
@@ -44,18 +60,37 @@ class ServerProxy {
     });
   }
 
-  static Future<List<Stock>> getUserHoldings() async {
-    Stream<QuerySnapshot> stream = await ActiveUser.database
-        .collection('users')
-        .doc(ActiveUser.loggedInUser.uid)
-        .collection('holdings').getDocuments();
+  // static Future<List<Stock>> getUserHoldings() async {
+  //   Stream<QuerySnapshot> stream = await ActiveUser.database
+  //       .collection('users')
+  //       .doc(ActiveUser.loggedInUser.uid)
+  //       .collection('holdings').getDocuments();
 
-    return stream.map()
+  //   return stream.map()
+  // }
+
+  static Future<List<InvestmentStrategy>> getStrategies() async {
+    List<InvestmentStrategy> strategies = [];
+
+    QuerySnapshot<Map<String, dynamic>> results =
+        await ActiveUser.database.collection('strategies').get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> resultsData =
+        results.docs;
+    resultsData.forEach((element) {
+      Map<String, dynamic> currData = element.data();
+      strategies.add(InvestmentStrategy(
+          id: currData["Id"],
+          strategyName: currData["Name"],
+          lowerRiskBound: currData["Lower bound"],
+          upperRiskBound: currData["Upper bound"],
+          description: currData["Description"]));
+    });
+    return strategies;
   }
 
-  static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
-    return ActiveUser.database.collection('strategies').snapshots();
-  }
+  //   static Stream<QuerySnapshot> getStrategies(String supplierDocumentID) {
+  //   return ActiveUser.database.collection('strategies').get().snapshots();
+  // }
 
   static Stream<QuerySnapshot> get(String supplierDocumentID) {
     return ActiveUser.database.collection('strategies').snapshots();
@@ -65,8 +100,8 @@ class ServerProxy {
     return database.currentUser;
   }
 
-  static getUserData() async {
-    var holdings = getUserHoldings().docs;
-    print(holdings)
-  }
+  // static getUserData() async {
+  //   var holdings = getUserHoldings().docs;
+  //   print(holdings)
+  // }
 }
