@@ -1,23 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/strategy_card.dart';
 import 'package:frontend/constants.dart';
+import 'package:frontend/data/server_proxy.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
+import 'package:frontend/data_models/user_info.dart';
 import 'package:openapi/api.dart';
+import 'package:frontend/data/server_proxy.dart';
 
 class SummaryScreen extends StatefulWidget {
   static const String id = 'summary_screen';
-  final User currUser;
-  SummaryScreen({Key key, @required this.currUser}) : super(key: key);
   @override
-  _SummaryScreen createState() => _SummaryScreen(currUser);
+  _SummaryScreen createState() => _SummaryScreen();
 }
 
 class _SummaryScreen extends State<SummaryScreen> {
-  User _currUser;
+  UserInfo _currUserInfo;
 
-  _SummaryScreen(User currUser) {
-    this._currUser = currUser;
+  _SummaryScreen() {
+    this._currUserInfo = ActiveUser().getUserInfo();
   }
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _SummaryScreen extends State<SummaryScreen> {
         child: Column(
           children: <Widget>[
             Text(
-              "Welcome " + _currUser.firstName,
+              "Welcome " + _currUserInfo.firstName,
               style: TextStyle(
                 fontSize: 20.0,
                 fontFamily: 'Horizon',
@@ -62,42 +64,60 @@ class _SummaryScreen extends State<SummaryScreen> {
                       )
                     ],
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "291.01",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              .apply(color: Colors.white, fontWeightDelta: 2),
-                        ),
-                      ],
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: fetchTotalValue(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: snapshot.data != ""
+                                      ? snapshot.data
+                                      : "\$0",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .apply(
+                                          color: Colors.white,
+                                          fontWeightDelta: 2),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Text('Loading...');
+                        }
+                      })
                 ],
               ),
             ),
             SizedBox(
               height: 50.0,
             ),
-            FutureBuilder(
-                future: fetchStrategies(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
+            FutureBuilder<QuerySnapshot>(
+                future: ActiveUser.database.collection('strategies').get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   // print("before if");
                   if (snapshot.hasData) {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data.length,
+                      itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) {
                         return StrategyCard(
-                          title: snapshot.data[index].strategyName,
-                          description: snapshot.data[index].description,
-                          strategy: snapshot.data[index].strategyId,
-                          selectedStrategy: _currUser.investmentStrategy,
-                          onPressed: () {
-                            print(index);
+                          title: snapshot.data.docs[index]['Name'],
+                          description: snapshot.data.docs[index]['Description'],
+                          strategyId: snapshot.data.docs[index]['Id'],
+                          selectedStrategy: _currUserInfo.investmentStrategy,
+                          onPressed: () async {
+                            setState(() {
+                              this._currUserInfo.investmentStrategy =
+                                  snapshot.data.docs[index]['Name'];
+                            });
+                            await ServerProxy.updateUserStrategy(
+                                snapshot.data.docs[index]['Name']);
                           },
                         );
                       },
@@ -139,25 +159,28 @@ class _SummaryScreen extends State<SummaryScreen> {
   }
 
   Future<List<InvestmentStrategy>> fetchStrategies() async {
-    List<InvestmentStrategy> strategyData = [];
-    final apiInstance = StrategiesApi();
-
     try {
-      final result = apiInstance.strategiesGet();
-      var response = await result;
-
-      response.strategies.forEach((current) => {
-            strategyData.add(InvestmentStrategy(
-                strategyId: current.investmentStrategyId,
-                strategyName: current.investmentStrategyName,
-                lowerRiskBound: current.riskLowerBound,
-                upperRiskBound: current.riskUpperBound,
-                description: current.strategyDescription))
-          });
+      List<InvestmentStrategy> strategyData = await ServerProxy.getStrategies();
       return strategyData;
     } catch (e) {
       print('Exception when calling StrategiesApi->strategies.get(): $e\n');
       return null;
     }
+  }
+
+  Future<String> fetchTotalValue() async {
+    // final apiInstance = UsersApi();
+    double totalValueNum = await ServerProxy.getTotalValue();
+    String totalValue = totalValueNum.toString();
+    return '\$$totalValue';
+    // try {
+    //   final result = apiInstance.usersUserIdAllholdingsGet(
+    //       _currUserInfo.userId, _currUserInfo.token);
+    //   var response = await result;
+    //   return response.totalValue;
+    // } catch (e) {
+    //   print('Exception when calling UsersApi->usersUserIdAllholdingsGet: $e\n');
+    //   return null;
+    // }
   }
 }

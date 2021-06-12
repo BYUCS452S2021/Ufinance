@@ -3,8 +3,13 @@ import 'package:frontend/components/rounded_button.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/data_models/strategy_model.dart';
 import 'package:frontend/data_models/user.dart';
+import 'package:frontend/data_models/user_info.dart';
+import 'package:frontend/screens/main_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:openapi/api.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide UserInfo;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:frontend/data/server_proxy.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -143,8 +148,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       dropdownValue = newValue;
                     });
                   },
-                  items: <String>['Conservative', 'Moderate', 'Agressive']
-                      .map<DropdownMenuItem<String>>((String value) {
+                  //TODO: Refactor
+                  items: <String>[
+                    "Safe",
+                    "Conservative",
+                    "Moderate",
+                    "Aggressive"
+                  ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -156,10 +166,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 24.0,
               ),
               RoundedButton(
-                title: 'Register',
-                colour: Colors.blueAccent,
-                onPressed: () => registerIsClicked(),
-              ),
+                  title: 'Register',
+                  colour: Colors.blueAccent,
+                  onPressed: () => registerIsClicked()),
               SizedBox(
                 height: 60.0,
               ),
@@ -168,79 +177,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
-  }
-
-  void registerIsClicked() {
-    if (dropdownValue == null ||
-        email == null ||
-        firstName == null ||
-        lastName == null ||
-        password == null ||
-        passwordRetype == null) {
-      showPrompt('Fill in missing fields');
-    } else if (password != passwordRetype) {
-      passwordText.clear();
-      passwordRetypeText.clear();
-      showPrompt('Passwords do not match');
-    } else {
-      registerUser();
-    }
-  }
-
-  Future<void> registerUser() async {
-    // Check if user exists
-    // Add user to database and move to the main page
-    User currUser;
-    final apiInstance = UsersApi();
-
-    try {
-      final result = apiInstance.usersPost(
-          inlineObject1: InlineObject1(
-              emailAddress: this.email,
-              password: this.password,
-              firstName: this.firstName,
-              middleName: this.middleName,
-              lastName: this.lastName
-              // investmentStrategy: this.dropdownValue
-              ));
-      var response = await result;
-      // currUser = User(1, "hi", "first", "middle", "lastName", 2);
-      currUser = User(
-          response.userId,
-          response.emailAddress,
-          response.firstName,
-          response.middleName,
-          response.lastName,
-          response.investmentStrategy);
-      print(currUser);
-      if (currUser != Null) {}
-    } catch (e) {
-      print('Exception when calling LoginApi->loginPost(): $e\n');
-    }
-  }
-
-  //TODO: Refactor
-  Future<List<InvestmentStrategy>> fetchStrategies() async {
-    List<InvestmentStrategy> strategyData = [];
-    final apiInstance = StrategiesApi();
-
-    try {
-      final result = apiInstance.strategiesGet();
-      var response = await result;
-
-      response.strategies.forEach((current) => {
-            strategyData.add(InvestmentStrategy(
-                strategyId: current.investmentStrategyId,
-                strategyName: current.investmentStrategyName,
-                lowerRiskBound: current.riskLowerBound,
-                upperRiskBound: current.riskUpperBound,
-                description: current.strategyDescription))
-          });
-      return strategyData;
-    } catch (e) {
-      print('Exception when calling StrategiesApi->strategies.get(): $e\n');
-      return null;
-    }
   }
 
   void showPrompt(String prompt) {
@@ -256,4 +192,121 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
+  void registerIsClicked() async {
+    if (dropdownValue == null ||
+        email == null ||
+        firstName == null ||
+        lastName == null ||
+        password == null ||
+        passwordRetype == null) {
+      showPrompt('Fill in missing fields');
+    } else if (password != passwordRetype) {
+      passwordText.clear();
+      passwordRetypeText.clear();
+      showPrompt('Passwords do not match');
+    } else if (password.length < 8) {
+      passwordText.clear();
+      passwordRetypeText.clear();
+      showPrompt('Password must be at least 8 characters');
+    } else {
+      var user = await ServerProxy.registerUser(email, password);
+      setState(() {
+        showSpinner = false;
+      });
+      if (user != null) {
+        print('i am here');
+        ActiveUser().setLoggedInUser(user);
+        ServerProxy.writeUserInfo(
+            this.firstName, this.lastName, this.middleName, this.dropdownValue);
+        ActiveUser().setLoggedInUserInfo(UserInfo(this.email, this.firstName,
+            this.middleName, this.lastName, this.dropdownValue));
+        Navigator.popAndPushNamed(context, MainScreen.id);
+      }
+    }
+  }
 }
+    // Future<void> registerUser() async {
+    //   // Check if user exists
+    //   // Add user to database and move to the main page
+    //   User currUser;
+    //   final apiInstance = UsersApi();
+    //   // int selectedStrategy;
+    //   // //TODO: Refactor
+    //   // switch (dropdownValue) {
+    //   //   case "Safe":
+    //   //     {
+    //   //       selectedStrategy = 1;
+    //   //     }
+    //   //     break;
+    //   //   case "Conservative":
+    //   //     {
+    //   //       selectedStrategy = 2;
+    //   //     }
+    //   //     break;
+    //   //   case "Moderate":
+    //   //     {
+    //   //       selectedStrategy = 3;
+    //   //     }
+    //   //     break;
+    //   //   case "Aggressive":
+    //   //     {
+    //   //       selectedStrategy = 4;
+    //   //     }
+    //   //     break;
+    //   // }
+
+    //   try {
+    //     final result = _auth.createUserWithEmailAndPassword(email: email, password: password) .usersPost(
+    //         inlineObject1: InlineObject1(
+    //             emailAddress: this.email,
+    //             password: this.password,
+    //             firstName: this.firstName,
+    //             middleName: this.middleName,
+    //             lastName: this.lastName,
+    //             investmentStrategy: dropdownValue));
+    //     var response = await result;
+    //     // currUser = User(1, "hi", "first", "middle", "lastName", 2);
+
+    //     currUser = User(
+    //         response.userId,
+    //         response.emailAddress,
+    //         response.firstName,
+    //         response.middleName,
+    //         response.lastName,
+    //         response.investmentStrategy,
+    //         response.token);
+    //     print(currUser);
+    //     if (currUser != Null) {
+    //       Navigator.popAndPushNamed(context, MainScreen.id, arguments: currUser);
+    //     }
+    //   } catch (e) {
+    //     print('Exception when calling UserApi->usersPost(): $e\n');
+    //     showPrompt("Email already taken");
+    //   }
+    // }
+
+    // //TODO: Refactor
+    // Future<List<InvestmentStrategy>> fetchStrategies() async {
+    //   List<InvestmentStrategy> strategyData = [];
+    //   final apiInstance = StrategiesApi();
+
+    //   try {
+    //     final result = apiInstance.strategiesGet();
+    //     var response = await result;
+
+    //     response.strategies.forEach((current) => {
+    //           strategyData.add(InvestmentStrategy(
+    //               strategyId: current.investmentStrategyId,
+    //               strategyName: current.investmentStrategyName,
+    //               lowerRiskBound: current.riskLowerBound,
+    //               upperRiskBound: current.riskUpperBound,
+    //               description: current.strategyDescription))
+    //         });
+    //     return strategyData;
+    //   } catch (e) {
+    //     print('Exception when calling StrategiesApi->strategies.get(): $e\n');
+    //     return null;
+    //   }
+    // }
+

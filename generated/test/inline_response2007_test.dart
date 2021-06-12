@@ -10,18 +10,13 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for InlineResponse2004Holdings
+// tests for InlineResponse2007
 void main() {
-  final instance = InlineResponse2004Holdings();
+  final instance = InlineResponse2007();
 
-  group('test InlineResponse2004Holdings', () {
-    // String stockTicker
-    test('to test the property `stockTicker`', () async {
-      // TODO
-    });
-
-    // num numberOfShares
-    test('to test the property `numberOfShares`', () async {
+  group('test InlineResponse2007', () {
+    // String totalValue
+    test('to test the property `totalValue`', () async {
       // TODO
     });
 

@@ -20,7 +20,7 @@ class _MainScreen extends State<MainScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as User;
+    // final args = ModalRoute.of(context).settings.arguments as User;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +46,13 @@ class _MainScreen extends State<MainScreen> with TickerProviderStateMixin {
         children: <Widget>[
           // TODO: Change this to screen widgets
           Center(
-            child: SummaryScreen(currUser: args),
+            child: SummaryScreen(),
           ),
           Center(
             child: HoldingsScreen(),
           ),
           Center(
-            child: Text('It\'s sunny here'),
+            child: HoldingsScreen(),
           ),
         ],
       ),

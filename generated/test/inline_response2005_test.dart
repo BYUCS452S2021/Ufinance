@@ -10,11 +10,11 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-// tests for InlineResponse201
+// tests for InlineResponse2005
 void main() {
-  final instance = InlineResponse201();
+  final instance = InlineResponse2005();
 
-  group('test InlineResponse201', () {
+  group('test InlineResponse2005', () {
     // int userId
     test('to test the property `userId`', () async {
       // TODO
@@ -42,11 +42,6 @@ void main() {
 
     // int investmentStrategy
     test('to test the property `investmentStrategy`', () async {
-      // TODO
-    });
-
-    // String token
-    test('to test the property `token`', () async {
       // TODO
     });
 

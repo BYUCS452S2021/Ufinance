@@ -12,25 +12,25 @@ part of openapi.api;
 class InlineResponse2002 {
   /// Returns a new [InlineResponse2002] instance.
   InlineResponse2002({
-    this.strategies = const [],
+    this.stockStatistics = const [],
   });
 
-  List<InlineResponse2002Strategies> strategies;
+  List<InlineResponse2002StockStatistics> stockStatistics;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponse2002 &&
-     other.strategies == strategies;
+     other.stockStatistics == stockStatistics;
 
   @override
   int get hashCode =>
-    (strategies == null ? 0 : strategies.hashCode);
+    (stockStatistics == null ? 0 : stockStatistics.hashCode);
 
   @override
-  String toString() => 'InlineResponse2002[strategies=$strategies]';
+  String toString() => 'InlineResponse2002[stockStatistics=$stockStatistics]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'strategies'] = strategies;
+      json[r'stock_statistics'] = stockStatistics;
     return json;
   }
 
@@ -39,7 +39,7 @@ class InlineResponse2002 {
   static InlineResponse2002 fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponse2002(
-        strategies: InlineResponse2002Strategies.listFromJson(json[r'strategies']),
+        stockStatistics: InlineResponse2002StockStatistics.listFromJson(json[r'stock_statistics']),
     );
 
   static List<InlineResponse2002> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

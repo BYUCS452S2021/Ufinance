@@ -41,7 +41,6 @@ module.exports = async function (fastify, opts) {
     },
     handler: async (request, reply) => {
       const { rows: statistics } = await fastify.pg.query('select stock_ticker, current_price, max_price, min_price, standard_deviation from stock_statistics')
-      request.log.info(statistics)
       return { stock_statistics: statistics }
     }
   })

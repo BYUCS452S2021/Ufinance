@@ -4,8 +4,12 @@ import 'package:frontend/constants.dart';
 import 'package:frontend/screens/main_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:frontend/screens/registration_screen.dart';
-import 'package:openapi/api.dart';
+// import 'package:openapi/api.dart';
 import 'package:frontend/data_models/user.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:frontend/data/server_proxy.dart';
+import 'package:frontend/data_models/user_info.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -15,8 +19,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
+  var user;
   String email;
   String password;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +79,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     showSpinner = true;
                   });
-                  try {
-                    attemptLogin();
-                    print('User will be logged in');
-                    setState(() {
-                      showSpinner = false;
-                    });
-                  } catch (e) {
-                    print(e);
+                  //DELETE LATER
+                  // this.email = "sam@example.com";
+                  // this.password = "some hash";
+                  var user = await ServerProxy.loginUser(email, password);
+                  setState(() {
+                    showSpinner = false;
+                  });
+                  if (user != null) {
+                    print('i am here');
+                    ActiveUser().setLoggedInUser(user);
+                    ActiveUser()
+                        .setLoggedInUserInfo(await ServerProxy.fetchUserInfo());
+                    Navigator.popAndPushNamed(context, MainScreen.id);
                   }
+                  // print('User will be logged in');
                 },
               ),
               RoundedButton(
@@ -98,31 +110,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void attemptLogin() async {
-    User currUser;
-    final apiInstance = LoginApi();
-
-    try {
-      final result = apiInstance.loginPost(
-          inlineObject:
-              InlineObject(emailAddress: this.email, password: this.password));
-      var response = await result;
-      // currUser = User(1, "hi", "first", "middle", "lastName", 2);
-      currUser = User(
-          response.userId,
-          response.emailAddress,
-          response.firstName,
-          response.middleName,
-          response.lastName,
-          response.investmentStrategy);
-      print(currUser);
-      if (currUser != Null) {}
-    } catch (e) {
-      print('Exception when calling LoginApi->loginPost(): $e\n');
-    }
-    // TODO: Delete
-    Navigator.popAndPushNamed(context, MainScreen.id,
-        arguments:
-            User(100, "test@gmail.com", "Mr. Test", "Middle", "McTester", 2));
+  void showPrompt(String prompt) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.blue[900],
+        content: Text(prompt,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 26,
+                color: Colors.white,
+                fontWeight: FontWeight.w400)),
+      ),
+    );
   }
 }

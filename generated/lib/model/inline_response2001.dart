@@ -18,6 +18,7 @@ class InlineResponse2001 {
     @required this.middleName,
     @required this.lastName,
     @required this.investmentStrategy,
+    @required this.token,
   });
 
   // minimum: 0
@@ -34,6 +35,8 @@ class InlineResponse2001 {
   // minimum: 0
   int investmentStrategy;
 
+  String token;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponse2001 &&
      other.userId == userId &&
@@ -41,7 +44,8 @@ class InlineResponse2001 {
      other.firstName == firstName &&
      other.middleName == middleName &&
      other.lastName == lastName &&
-     other.investmentStrategy == investmentStrategy;
+     other.investmentStrategy == investmentStrategy &&
+     other.token == token;
 
   @override
   int get hashCode =>
@@ -50,10 +54,11 @@ class InlineResponse2001 {
     (firstName == null ? 0 : firstName.hashCode) +
     (middleName == null ? 0 : middleName.hashCode) +
     (lastName == null ? 0 : lastName.hashCode) +
-    (investmentStrategy == null ? 0 : investmentStrategy.hashCode);
+    (investmentStrategy == null ? 0 : investmentStrategy.hashCode) +
+    (token == null ? 0 : token.hashCode);
 
   @override
-  String toString() => 'InlineResponse2001[userId=$userId, emailAddress=$emailAddress, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy]';
+  String toString() => 'InlineResponse2001[userId=$userId, emailAddress=$emailAddress, firstName=$firstName, middleName=$middleName, lastName=$lastName, investmentStrategy=$investmentStrategy, token=$token]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -63,6 +68,7 @@ class InlineResponse2001 {
       json[r'middle_name'] = middleName;
       json[r'last_name'] = lastName;
       json[r'investment_strategy'] = investmentStrategy;
+      json[r'token'] = token;
     return json;
   }
 
@@ -77,6 +83,7 @@ class InlineResponse2001 {
         middleName: json[r'middle_name'],
         lastName: json[r'last_name'],
         investmentStrategy: json[r'investment_strategy'],
+        token: json[r'token'],
     );
 
   static List<InlineResponse2001> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

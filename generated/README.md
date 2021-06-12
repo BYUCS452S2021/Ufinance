@@ -59,10 +59,13 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *HealthApi* | [**healthGet**](doc\/HealthApi.md#healthget) | **GET** /health | Healthcheck
 *LoginApi* | [**loginPost**](doc\/LoginApi.md#loginpost) | **POST** /login | Login
+*StockStatisticsApi* | [**stockStatisticsGet**](doc\/StockStatisticsApi.md#stockstatisticsget) | **GET** /stock_statistics | Get stock statistics
+*StockStatisticsApi* | [**stockStatisticsStockTickerGet**](doc\/StockStatisticsApi.md#stockstatisticsstocktickerget) | **GET** /stock_statistics/{stock_ticker} | Get stock statistics for a stock ticker
 *StrategiesApi* | [**strategiesGet**](doc\/StrategiesApi.md#strategiesget) | **GET** /strategies | Get strategies
 *StrategiesApi* | [**strategiesInvestmentStrategyIdGet**](doc\/StrategiesApi.md#strategiesinvestmentstrategyidget) | **GET** /strategies/{investment_strategy_id} | Get strategy
 *TimeApi* | [**timeGet**](doc\/TimeApi.md#timeget) | **GET** /time | Get time
 *UsersApi* | [**usersPost**](doc\/UsersApi.md#userspost) | **POST** /users | Register
+*UsersApi* | [**usersUserIdAllholdingsGet**](doc\/UsersApi.md#usersuseridallholdingsget) | **GET** /users/{user_id}/allholdings | Get total holdings value for user
 *UsersApi* | [**usersUserIdGet**](doc\/UsersApi.md#usersuseridget) | **GET** /users/{user_id} | Get user
 *UsersApi* | [**usersUserIdHoldingsGet**](doc\/UsersApi.md#usersuseridholdingsget) | **GET** /users/{user_id}/holdings | Get user
 
@@ -74,11 +77,14 @@ Class | Method | HTTP request | Description
  - [InlineResponse200](doc\/InlineResponse200.md)
  - [InlineResponse2001](doc\/InlineResponse2001.md)
  - [InlineResponse2002](doc\/InlineResponse2002.md)
- - [InlineResponse2002Strategies](doc\/InlineResponse2002Strategies.md)
+ - [InlineResponse2002StockStatistics](doc\/InlineResponse2002StockStatistics.md)
  - [InlineResponse2003](doc\/InlineResponse2003.md)
+ - [InlineResponse2003Strategies](doc\/InlineResponse2003Strategies.md)
  - [InlineResponse2004](doc\/InlineResponse2004.md)
- - [InlineResponse2004Holdings](doc\/InlineResponse2004Holdings.md)
- - [InlineResponse201](doc\/InlineResponse201.md)
+ - [InlineResponse2005](doc\/InlineResponse2005.md)
+ - [InlineResponse2006](doc\/InlineResponse2006.md)
+ - [InlineResponse2006Holdings](doc\/InlineResponse2006Holdings.md)
+ - [InlineResponse2007](doc\/InlineResponse2007.md)
  - [InlineResponse400](doc\/InlineResponse400.md)
 
 
